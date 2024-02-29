@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 14:39:56 by dliuzzo          ###   ########.fr       */
+/*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
+/*   Updated: 2024/02/29 15:00:12 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void init_struct(t_input *input)
+void    build_tokens(t_lexbuf *tokens, t_input *input)
 {
-    input->nread = 0;
-    input->again = 1;
-    input->len = 0;
-    input->linebuffer = NULL;
+    
 }
