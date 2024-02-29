@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/02/29 12:19:42 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/02/29 12:52:48 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ CFLAGS += -I$I
 
 LDFLAGS = -L$L -lft
 
-SRCS =	$Smain.c 
+SRCS =	$Smain.c \
+		init.c
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

@@ -11,10 +11,14 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <readline/readline.h>
+#include <errno.h>
 
-struct s_input
+typedef struct s_input
 {
-    int i;
+    char *linebuffer;
+    size_t nread;
+    int again;
+    int len;
 } t_input;
 
 int main(int ac, char **av, char **env);
