@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:18:03 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/02/29 16:36:24 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void ft_free_list(t_lexbuf *tokens)
 		tmp = tokens;
 		while (tokens)
 		{
+			printf("adresse--->%p\n", tmp);
 			tmp = tokens;
 			tokens = tokens->next;
 			free(tmp);

@@ -6,13 +6,14 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:17:23 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/02/29 16:59:41 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/includes/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <readline/readline.h>
@@ -38,7 +39,6 @@ typedef struct s_input
 typedef struct s_lexbuf
 {
 	struct s_lexbuf	*next;
-	struct s_lexbuf	*prev;
 	char			*value;
 	int				inredir;
 	int				outredir;
@@ -59,10 +59,9 @@ int					main(int ac, char **env);
 // INIT
 
 void				init_struct(t_input *input);
-void				init_tokens(t_lexbuf *tokens, t_input *input);
+void				init_tokens(t_lexbuf *tokens);
 void				build_tokens(t_lexbuf *tokens, t_input *input);
-t_lexbuf			*ft_prevtoken(t_lexbuf *tokens, t_input *input);
-t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input);
+t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value);
 
 // FREE
 void				ft_free(t_input *input, t_lexbuf *tokens);

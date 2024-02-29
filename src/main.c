@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:05:43 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/02/29 17:03:10 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main (int ac, char **env)
         printf("input.nread--->%zu\n", input.nread);
         printf("ENV--->%s\n", env[0]);
     }
+    // ft_free(&input, &tokens);
     //si l utilisateur fait control D alors on arrete
     //creer liste de tokens en fonction de input (linebuffer)
     // build_tokens();

@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:18:33 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/02/29 17:05:58 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void init_struct(t_input *input)
     input->len = 0;
     input->linebuffer = NULL;
 }
-void init_tokens(t_lexbuf *tokens, t_input *input)
+void init_tokens(t_lexbuf *tokens)
 {
-    tokens->next = ft_nexttoken(tokens, input);
-    tokens->prev = ft_prevtoken(tokens, input);
     tokens->inredir = 0;
     tokens->outredir = 0;
     tokens->pipe = 0;
@@ -32,24 +30,15 @@ void init_tokens(t_lexbuf *tokens, t_input *input)
     tokens->argument = 0;
 }
 
-t_lexbuf *ft_nexttoken(t_lexbuf *tokens, t_input *input)
+t_lexbuf *ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value)
 {
 	t_lexbuf *new;
 
 	new = (t_lexbuf *)malloc(sizeof(t_lexbuf));
 	if (!new)
 		ft_free(input, tokens);
-	new->next = NULL;
-	return (new);
-}
-
-t_lexbuf *ft_prevtoken(t_lexbuf *tokens, t_input *input)
-{
-	t_lexbuf *new;
-
-	new = (t_lexbuf *)malloc(sizeof(t_lexbuf));
-	if (!new)
-		ft_free(input, tokens);
-	new->prev = NULL;
+	new->value = ft_strdup(value);
+    new->next = NULL;
+    init_tokens(tokens);
 	return (new);
 }
