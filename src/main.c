@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 17:03:10 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:22:55 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int main (int ac, char **env)
 {
-    t_lexbuf tokens;
+    t_lexbuf *tokens;
     t_input input;
+    
     if(ac != 1)
         exit(1);
     init_struct(&input);
@@ -33,15 +34,15 @@ int main (int ac, char **env)
             input.again = 1;   
         }
     }
-    build_tokens(&tokens, &input);
-
+    tokens = build_tokens(&input);
     if(input.linebuffer)
     {
         printf("LINEBUFFER---->%s\n", input.linebuffer);
         printf("input.nread--->%zu\n", input.nread);
         printf("ENV--->%s\n", env[0]);
     }
-    // ft_free(&input, &tokens);
+    print_stack(tokens);
+    ft_free(&input, tokens);
     //si l utilisateur fait control D alors on arrete
     //creer liste de tokens en fonction de input (linebuffer)
     // build_tokens();

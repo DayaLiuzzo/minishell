@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/02/29 16:20:27 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/01 17:58:07 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,9 @@ LDFLAGS = -L$L -lft
 
 SRCS =	$Smain.c \
 		$Sinit.c \
-		$Sinput.c \
 		$Slexing.c \
-		$Sfree.c 
+		$Sfree.c \
+		$Sutils.c 
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

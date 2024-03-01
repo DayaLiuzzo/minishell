@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:36:24 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:29:35 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void ft_free_list(t_lexbuf *tokens)
 		tmp = tokens;
 		while (tokens)
 		{
-			printf("adresse--->%p\n", tmp);
 			tmp = tokens;
 			tokens = tokens->next;
+			if (tmp->value)
+				free(tmp->value);
 			free(tmp);
 		}
 	}
@@ -34,10 +35,23 @@ void ft_free(t_input *input, t_lexbuf *tokens)
     if(input->linebuffer)
     {
         free(input->linebuffer);
-        input->linebuffer = NULL;
     }
-    if (tokens)
-        ft_free_list(tokens);
-    printf("ERROR\n");
+	ft_free_list(tokens);
 	exit(1);
+}
+
+void	ft_free_tab(char **value)
+{
+	int	i;
+
+	if (value)
+	{
+		i = 0;
+		while (value[i])
+		{
+			free(value[i]);
+			i++;
+		}
+		free(value);
+	}
 }

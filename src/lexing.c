@@ -6,32 +6,34 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 17:08:51 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:25:59 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    build_tokens(t_lexbuf *tokens, t_input *input)
+t_lexbuf    *build_tokens(t_input *input)
 {
     int i;
     char **values;
     t_lexbuf *ea;
+	t_lexbuf *token;
     
     ea = NULL;
-    tokens = NULL;
+	token = NULL;
     i = 0;
     values = ft_split(input->linebuffer, ' ');
     while (values[i] != NULL)
 		i++;
 	i = i - 1;
-	while (i >= 1)
+	while (i >= 0)
 	{
-		ea = ft_nexttoken(tokens, input, values[i]);
-		ea->next = tokens;
-		tokens = ea;
+		ea = ft_nexttoken(token, input, values[i]);
+		ea->next = token;
+		token = ea;
 		i--;
 	}
-        printf("token->value ----->%s\n", tokens->value);
-        // tokens = tokens->next;
+	ft_free_tab(values);
+	// print_stack(token);
+	return (token);
 }

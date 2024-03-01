@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/02/29 16:59:41 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:28:09 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # include <termios.h>
 # include <unistd.h>
 
+typedef struct s_args
+{
+	char *varname;
+	char *varcontent;
+	struct s_args *next;
+}	t_args;
+
 typedef struct s_input
 {
 	char			*linebuffer;
@@ -38,6 +45,7 @@ typedef struct s_input
 
 typedef struct s_lexbuf
 {
+	t_args			*args;
 	struct s_lexbuf	*next;
 	char			*value;
 	int				inredir;
@@ -49,6 +57,7 @@ typedef struct s_lexbuf
 	int				argument;
 	int				heredoc;
 	int				appoutredir;
+	int				builtin;
 
 }					t_lexbuf;
 
@@ -60,11 +69,15 @@ int					main(int ac, char **env);
 
 void				init_struct(t_input *input);
 void				init_tokens(t_lexbuf *tokens);
-void				build_tokens(t_lexbuf *tokens, t_input *input);
+t_lexbuf    		*build_tokens(t_input *input);
 t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value);
 
 // FREE
 void				ft_free(t_input *input, t_lexbuf *tokens);
 void				ft_free_list(t_lexbuf *tokens);
+void				ft_free_tab(char **value);
+
+// TEST
+void 				print_stack(t_lexbuf *tokens);
 
 #endif
