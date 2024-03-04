@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/01 18:29:35 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 18:43:21 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ void ft_free_list(t_lexbuf *tokens)
 	}
 }
 
-void ft_free(t_input *input, t_lexbuf *tokens)
+void ft_free(t_input *input, t_lexbuf *tokens, int leave)
 {
     if(input->linebuffer)
     {
         free(input->linebuffer);
     }
 	ft_free_list(tokens);
-	exit(1);
+	if(leave == 1)
+		exit(1);
 }
 
 void	ft_free_tab(char **value)

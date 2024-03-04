@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/01 18:28:09 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:46:58 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,17 @@ typedef struct s_input
 	int				len;
 }					t_input;
 
+typedef struct s_split
+{
+	int i;
+	int j;
+	int k;
+	int len;
+	int word_count;
+	int squote;
+	int dquote;
+}					t_split;
+
 typedef struct s_lexbuf
 {
 	t_args			*args;
@@ -65,19 +76,23 @@ typedef struct s_lexbuf
 
 int					main(int ac, char **env);
 
-// INIT
+// INIT STRUCT
 
 void				init_struct(t_input *input);
 void				init_tokens(t_lexbuf *tokens);
-t_lexbuf    		*build_tokens(t_input *input);
-t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value);
-
 // FREE
-void				ft_free(t_input *input, t_lexbuf *tokens);
+void				ft_free(t_input *input, t_lexbuf *tokens, int i);
 void				ft_free_list(t_lexbuf *tokens);
 void				ft_free_tab(char **value);
 
 // TEST
 void 				print_stack(t_lexbuf *tokens);
 
+// LEXING 
+void 				analyse_token(t_lexbuf *input);
+t_lexbuf    		*build_tokens(t_input *input);
+t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value);
+
+//UTILS
+void minishell_split(char *s);
 #endif

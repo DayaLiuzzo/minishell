@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/01 18:25:59 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:29:00 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,16 @@ t_lexbuf    *build_tokens(t_input *input)
 	ft_free_tab(values);
 	// print_stack(token);
 	return (token);
+}
+
+void analyse_token(t_lexbuf *tokens)
+{
+	t_lexbuf *tmp;
+	tmp = tokens;
+
+	while(tmp)
+	{
+		
+	}
+	
 }
