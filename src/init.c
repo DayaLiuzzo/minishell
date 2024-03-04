@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/04 13:43:29 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/04 21:07:55 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void init_struct(t_input *input)
     input->nread = 0;
     input->again = 1;
     input->len = 0;
-    input->linebuffer = NULL;
+    // input->linebuffer = NULL;
 }
 void init_tokens(t_lexbuf *tokens)
 {
