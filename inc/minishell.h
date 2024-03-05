@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/04 20:57:39 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 12:50:01 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ typedef struct s_split
 	int i;
 	int j;
 	int k;
-	int len;
+	int start;
+	int end;
+	int wordlen;
 	int word_count;
 	int squote;
 	int dquote;

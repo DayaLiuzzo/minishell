@@ -16,4 +16,4 @@ pansion], page 35) and commands and arguments.
 moves the redirection operators and their operands from the argument list.
 6. Executes the command (see Section 3.7 [Executing Commands], page 42).
 7. Optionally waits for the command to complete and collects its exit status (see
-Section 3.7.5 [Exit Status], page 44)
+Section 3.7.5 [Exit Status], page 44)"
