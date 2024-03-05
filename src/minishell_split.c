@@ -6,43 +6,12 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:27:50 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/05 14:26:23 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:48 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_space(char c)
-{
-    if(c == ' ' || c == 9)
-        return 1;
-    return 0;
-}
-
-void ft_double_loop(t_split *split, char *s)
-{
-    split->dquote +=1;
-    if(split->dquote % 2 == 0)
-        split->i++;
-    else
-    {
-        split->i++;
-        while(s[split->i] && s[split->i] != '"')
-            split->i++;     
-    }
-}
-void ft_single_loop(t_split *split, char *s)
-{
-    split->squote +=1;
-    if(split->squote % 2 == 0)
-        split->i++;
-    else
-    {
-        split->i++;
-        while(s[split->i] && s[split->i] != 39)
-            split->i++;
-    }
-}
 void ft_count_words(t_split *split, char *s)
 {
     split->word_count = 0;
@@ -67,13 +36,6 @@ void ft_count_words(t_split *split, char *s)
             } 
         }
     }
-}
-void init_split_count(t_split *split)
-{
-    split->i = 0;
-    split->dquote = 0;
-    split->squote = 0;
-    split->wordlen = 0;
 }
 int get_word_len(t_split *split, char *s)
 {
@@ -113,6 +75,8 @@ char *ft_malloc_words(t_split *split, char *s)
     split->end = get_word_len(split, s);
     split->wordlen = split->end - split->start;
     new = (char *)malloc(sizeof(char) * split->wordlen + 1);
+    if(!new)
+        return NULL;
     while(s[split->start] && split->start != split->end)
     {
         new[i] = s[split->start];
@@ -121,29 +85,32 @@ char *ft_malloc_words(t_split *split, char *s)
     }
     new[i] = 0;
     return (new);
-    
 }
-void minishell_split(char *s)
+char ** minishell_split(char *s)
 {
-    char **strs;
+    char **strs = NULL;
     t_split split;
     int i;
+    
     if(!s)
         exit(0);
     init_split_count(&split);
     i = 0;
     ft_count_words(&split, s);
-    
-    // if((split.squote + split.dquote) % 2 != 0)
-    // ;
-        // return(printf("QUOTE UNCLOSED\n"));
+    if((split.squote > 0 && split.squote % 2 != 0) ||
+     (split.dquote > 0 && split.dquote % 2 != 0))
+        return(NULL);
     strs = (char **)malloc(sizeof(char*) * (split.word_count + 1));
+    if(!strs)
+        return(NULL);
     split.end = 0;
     while(i < split.word_count)
     {
             strs[i] = ft_malloc_words(&split, s);
+            if(!strs)
+                return (split_error(strs));
             i++;
     }
     strs[i] = 0;
-    // return (strs);
+    return (strs);
 }

@@ -6,16 +6,18 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/04 21:12:10 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 17:08:12 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main (int ac, char **av)
+int main (int ac, char **av, char **env)
 {
     // t_lexbuf *tokens;
     t_input input;
+    t_args *myenv;
+    char **test;
     (void)av;
     char buffer[4096];
     
@@ -24,6 +26,7 @@ int main (int ac, char **av)
     //  Fonction pour ignorer Ctrl z etc... ignore_signals;
     while(1)
     {
+        myenv = get_env(env);
         init_struct(&input);
     //     while(input.again)
     //     {
@@ -40,8 +43,11 @@ int main (int ac, char **av)
         input.linebuffer = readline(buffer);
         add_history(input.linebuffer);
         // printf("%s\n", av[0]);
-        minishell_split(input.linebuffer);
+        test = minishell_split(input.linebuffer);
+        print_tab(test);
+        print_env(myenv);
         free(input.linebuffer);
+        test = split_error(test);
         // tokens = build_tokens(&input);
         // analyse_token(tokens);
     // ft_free(&input, tokens, 0);

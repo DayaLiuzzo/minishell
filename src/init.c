@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/04 21:07:55 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 14:42:36 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ t_lexbuf *ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value)
     new->next = NULL;
     
 	return (new);
+}
+
+void init_split_count(t_split *split)
+{
+    split->i = 0;
+    split->dquote = 0;
+    split->squote = 0;
+    split->wordlen = 0;
 }
