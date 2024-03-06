@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:27:50 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/05 15:43:48 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 20:30:45 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ char ** minishell_split(char *s)
     ft_count_words(&split, s);
     if((split.squote > 0 && split.squote % 2 != 0) ||
      (split.dquote > 0 && split.dquote % 2 != 0))
-        return(NULL);
+        return(split_error("QUOTES UNCLOSED OR FCKED UP", strs));
     strs = (char **)malloc(sizeof(char*) * (split.word_count + 1));
     if(!strs)
-        return(NULL);
+        return(split_error("Malloc Error in Split", strs));
     split.end = 0;
     while(i < split.word_count)
     {
             strs[i] = ft_malloc_words(&split, s);
             if(!strs)
-                return (split_error(strs));
+                return (split_error("Malloc Error in Split", strs));
             i++;
     }
     strs[i] = 0;

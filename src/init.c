@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/05 14:42:36 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:49:35 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,6 @@ void init_tokens(t_lexbuf *tokens)
 	tokens->heredoc = 0;
 	tokens->appoutredir = 0;
 	tokens->builtin = 0;
-}
-
-t_lexbuf *ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value)
-{
-	t_lexbuf *new;
-    
-    
-	new = (t_lexbuf *)malloc(sizeof(t_lexbuf));
-	if (!new)
-		ft_free(input, tokens, 1);
-    init_tokens(new);
-	new->value = ft_strdup(value);
-    if(new->value == NULL)
-        ft_free(input, tokens, 1);
-    new->next = NULL;
-    
-	return (new);
 }
 
 void init_split_count(t_split *split)

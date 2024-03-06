@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/05 17:02:07 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/06 16:41:08 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ SRCS =	$Smain.c \
 		$Sfree.c \
 		$Sutils.c \
 		$Sminishell_split.c \
-		$Sget_env.c 
+		$Sredir.c 
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf
