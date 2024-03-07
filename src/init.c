@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/05 18:49:35 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/07 14:42:05 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void init_tokens(t_lexbuf *tokens)
     tokens->variable = 0;
     tokens->command = 0;
     tokens->argument = 0;
-    tokens->args = NULL;
 	tokens->next = NULL;
 	tokens->value = NULL;
 	tokens->heredoc = 0;

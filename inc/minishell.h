@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/06 16:50:10 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/07 15:44:50 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_split
 
 typedef struct s_lexbuf
 {
-	t_args			*args;
 	struct s_lexbuf	*next;
 	struct s_lexbuf	*prev;
 	char			*value;
@@ -114,7 +113,7 @@ t_lexbuf			*build_tokens(t_input *input, char **test);
 t_lexbuf			*ft_nexttoken(t_lexbuf *tokens, t_input *input,
 						char *value);
 t_lexbuf 			*ft_addprev(t_lexbuf *token);
-void 				quote_expand(t_lexbuf *tokens, t_lexbuf *head);
+void 				quote_expand(t_lexbuf *tokens, t_lexbuf *head, char **env);
 void				ft_checker(t_lexbuf *tokens, t_lexbuf *head, t_split *split);
 t_command_table		*create_command_table(t_lexbuf *tokens);
 
@@ -130,6 +129,10 @@ void				ft_double_loop(t_split *split, char *s);
 void				ft_single_loop(t_split *split, char *s);
 void				in_double_quote(char *value, t_split *split);
 void				in_single_quote(char *value, t_split *split);
+int 				protection(t_split *split, char *s);
+int 				ft_count_words_util(t_split *split, char *s);
+int 				wordlen_char_utils(t_split *split, char *s);
+int 				word_len_utils(t_split *split, char *s);
 
 //ARGS LOCAUX
 
