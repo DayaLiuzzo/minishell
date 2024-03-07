@@ -6,19 +6,16 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/07 14:51:33 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/07 20:01:46 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+//CHAR BY CHAR PARSING
 int main (int ac, char **av, char **env)
 {
     t_input input;
-    // t_args *myargs;
     t_lexbuf *mytokens;
-    // t_command_table *commands;
-    char **test;
     (void)av;
     (void)env;
     int i;
@@ -30,18 +27,42 @@ int main (int ac, char **av, char **env)
         init_struct(&input);
         input.linebuffer = readline("minishell >");
         add_history(input.linebuffer);
-        test = minishell_split(input.linebuffer);
-        // print_tab(test);
-        mytokens = build_tokens(&input, test);
-        // separate_commands(mytokens)
-        print_stack(mytokens);
-        // commands = create_command_table(mytokens);
-        // myargs = get_args(args, test);
-        // print_args(myargs);
-        // test = split_error(test);
+        mytokens = token_recognition(input.linebuffer);
         ft_free(&input, mytokens, 0);
     }
 }
+// SPLIT PARSING
+// int main (int ac, char **av, char **env)
+// {
+//     t_input input;
+//     // t_args *myargs;
+//     t_lexbuf *mytokens;
+//     // t_command_table *commands;
+//     char **test;
+//     (void)av;
+//     (void)env;
+//     int i;
+//     if(ac != 1)
+//         exit(1);
+//     while(1)
+//     {
+//         i = 0;
+//         init_struct(&input);
+//         input.linebuffer = readline("minishell >");
+//         add_history(input.linebuffer);
+//         test = minishell_split(input.linebuffer);
+//         // print_tab(test);
+//         mytokens = build_tokens(&input, test);
+//         // separate_commands(mytokens)
+//         print_stack(mytokens);
+//         // commands = create_command_table(mytokens);
+//         // myargs = get_args(args, test);
+//         // print_args(myargs);
+//         // test = split_error(test);
+//         ft_free(&input, mytokens, 0);
+//     }
+// }
+
 
 // char *ft_strscpy(char *src, char *dest, int start)
 // {

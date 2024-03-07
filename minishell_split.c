@@ -6,22 +6,12 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:27:50 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/07 15:45:35 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/07 16:16:53 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_count_words_util(t_split *split, char *s)
-{
-        if (s[split->i] && s[split->i]== '|')
-        {
-            split->word_count++;
-            split->i++;
-            return 1;
-        }
-        return 0;
-}
 void ft_count_words(t_split *split, char *s)
 {
     split->word_count = 0;
@@ -47,28 +37,6 @@ void ft_count_words(t_split *split, char *s)
         }
     }
 }
-
-int protection(t_split *split, char *s)
-{
-    if(((split->dquote == 0 && split->squote ==  0 ) || 
-            ((split->dquote != 0 && split->dquote % 2 == 0)
-            || (split->squote != 0 && split->squote % 2 == 0))) && s[split->i] != '|')
-        return 1;
-    else 
-        return 0;
-}
-
-int word_len_utils(t_split *split, char *s)
-{
-    if (s[split->i] && s[split->i]== '|')
-    {
-        split->start = split->i;
-        split->end = split->i;
-        split->i++;
-        return 1;
-    }
-    return 0;
-}
 int get_word_len(t_split *split, char *s)
 {
     init_split_count(split);
@@ -89,81 +57,21 @@ int get_word_len(t_split *split, char *s)
                     ft_single_loop(split, s);
                 else if(s[split->i] && s[split->i]== '"')
                     ft_double_loop(split, s);
-                else if(split-> i == wordlen_char_utils(split, s))
-                    return (split->end = split->i);     
+                else if (s[split->i] && is_space(s[split->i]) == 0)
+                {
+                    if (s[split->i]&& s[split->i +1] == '|')    
+                    {
+                    split->i++;
+                    return(split->end = split->i);
+                    }
+                split->i++;
+                }  
             }
             return(split->end = split->i);
         }
     }
     return (0);
 }
-
-int wordlen_char_utils(t_split *split, char *s)
-{
-    if (s[split->i] && is_space(s[split->i]) == 0)
-    {
-        if (s[split->i]&& s[split->i +1] == '|')    
-        {
-            split->i++;
-            return(split->end = split->i);
-        }
-        split->i++;
-    }
-    return (-1);
-}
-// void ft_count_words(t_split *split, char *s)
-// {
-//     split->word_count = 0;
-//     while(s[split->i])
-//     {
-//         while(s[split->i] && (is_space(s[split->i]) == 1))
-//             split->i++;
-//         if(s[split->i] && (is_space(s[split->i]) == 0)) 
-//         {
-//             if((split->dquote == 0 && split->squote ==  0 ) || 
-//             ((split->dquote != 0 && split->dquote % 2 == 0)
-//             || (split->squote != 0 && split->squote % 2 == 0)))
-//                 split->word_count++;
-//             while(s[split->i] && (is_space(s[split->i]) == 0))
-//             {
-//                 if(s[split->i] && s[split->i]== 39)
-//                     ft_single_loop(split, s);
-//                 else if(s[split->i] && s[split->i]== '"')
-//                     ft_double_loop(split, s);
-//                 else if(s[split->i] && is_space(s[split->i]) == 0)
-//                     split->i++;
-//             } 
-//         }
-//     }
-// // }
-// int get_word_len(t_split *split, char *s)
-// {
-//     init_split_count(split);
-//     split->i = split->end;
-//     while(s[split->i])
-//     {
-//         while(s[split->i] && (is_space(s[split->i]) == 1))
-//             split->i++;
-//         if(s[split->i] && (is_space(s[split->i]) == 0)) 
-//         {
-//             if((split->dquote == 0 && split->squote ==  0 ) || 
-//             ((split->dquote != 0 && split->dquote % 2 == 0)
-//             || (split->squote != 0 && split->squote % 2 == 0)))
-//                 split->start = split->i;
-//             while(s[split->i] && (is_space(s[split->i]) == 0))
-//             {
-//                 if(s[split->i] && s[split->i]== 39)
-//                     ft_single_loop(split, s);
-//                 else if(s[split->i] && s[split->i]== '"')
-//                     ft_double_loop(split, s);
-//                 else if(s[split->i] && is_space(s[split->i]) == 0)
-//                     split->i++;
-//             }
-//             return(split->end = split->i);
-//         }
-//     }
-//     return (0);
-// }
 
 char *ft_malloc_words(t_split *split, char *s)
 {

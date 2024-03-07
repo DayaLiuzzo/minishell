@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/06 16:41:08 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/07 21:28:12 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS =	$Smain.c \
 		$Slexing.c \
 		$Sfree.c \
 		$Sutils.c \
-		$Sminishell_split.c \
+		$Stoken_recognition.c \
 		$Sredir.c 
 #		$(addprefix $S, examplefolder/)
 
