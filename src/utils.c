@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 17:55:20 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/08 12:57:24 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:47:53 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void print_stack(t_lexbuf *tokens)
     tmp = tokens;
     while(tmp)
     {
-        printf("top node Nb %i ----> value : %s\n", i, tmp->value);
+        printf("top node Nb %i ----> value : %s  type --->%i \n", i, tmp->value, tmp->type);
         if(tmp->next == NULL)
             break;
         tmp = tmp->next;
         i++;
     }
-    i = 0;
-    while(tmp)
-    {
-        printf("prev node Nb %i ----> value : %s\n", i, tmp->value);
-        tmp = tmp->prev;
-        i++;
-    }
+    // i = 0;
+    // while(tmp)
+    // {
+    //     printf("prev node Nb %i ----> value : %s\n", i, tmp->value);
+    //     tmp = tmp->prev;
+    //     i++;
+    // }
 }
 
 int is_space(char c)

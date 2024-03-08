@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/08 13:08:47 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 20:32:06 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int main (int ac, char **av, char **env)
 {
     t_input input;
     t_lexbuf *mytokens;
+    // t_command_table *mycommands;
     (void)av;
     (void)env;
     int i;
@@ -29,8 +30,22 @@ int main (int ac, char **av, char **env)
         input.linebuffer = readline("minishell >");
         add_history(input.linebuffer);
         mytokens = token_recognition(input.linebuffer, &input);
-        free(input.linebuffer);
+        // mycommands = build_commands(&input, &mytokens);
         print_stack(mytokens);
-        ft_free("", &input, mytokens, 0);
+        ft_free("", &input, &mytokens, 0);
     }
 }
+
+// t_command_table     *build_commands(t_input *input, t_lexbuf **tokens)
+// {
+//     t_command_table *mycommands;
+//     t_lexbuf *tmp = *tokens;
+    
+//     mycommands = NULL;
+//     while(tmp)
+//     {
+        
+//     }
+    
+//     return(mycommands);
+// }
