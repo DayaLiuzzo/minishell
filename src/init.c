@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/07 14:42:05 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:36:03 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,4 @@ void init_struct(t_input *input)
     input->again = 1;
     input->len = 0;
     // input->linebuffer = NULL;
-}
-void init_tokens(t_lexbuf *tokens)
-{
-    tokens->inredir = 0;
-    tokens->outredir = 0;
-    tokens->pipe = 0;
-    tokens->nl = 0;
-    tokens->variable = 0;
-    tokens->command = 0;
-    tokens->argument = 0;
-	tokens->next = NULL;
-	tokens->value = NULL;
-	tokens->heredoc = 0;
-	tokens->appoutredir = 0;
-	tokens->builtin = 0;
-}
-
-void init_split_count(t_split *split)
-{
-    split->i = 0;
-    split->dquote = 0;
-    split->squote = 0;
-    split->wordlen = 0;
 }

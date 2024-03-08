@@ -6,36 +6,12 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/07 14:49:53 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:32:06 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexbuf	*build_tokens(t_input *input, char **test)
-{
-	int			i;
-	t_lexbuf	*ea;
-	t_lexbuf	*token;
-
-	ea = NULL;
-	token = NULL;
-	i = 0;
-	if (test)
-	{
-		while (test[i] != NULL)
-			i++;
-		i = i - 1;
-		while (i >= 0)
-		{
-			ea = ft_nexttoken(token, input, test[i]);
-			ea->next = token;
-			token = ea;
-			i--;
-		}
-	}
-	return (ft_addprev(token));
-}
 t_lexbuf	*ft_addprev(t_lexbuf *token)
 {
 	t_lexbuf	*tmp;
@@ -54,21 +30,6 @@ t_lexbuf	*ft_addprev(t_lexbuf *token)
 		}
 	}
 	return (token);
-}
-t_lexbuf	*ft_nexttoken(t_lexbuf *tokens, t_input *input, char *value)
-{
-	t_lexbuf	*new;
-
-	new = (t_lexbuf *)malloc(sizeof(t_lexbuf));
-	if (!new)
-		ft_free(input, tokens, 1);
-	init_tokens(new);
-	new->value = ft_strdup(value);
-	if (new->value == NULL)
-		ft_free(input, tokens, 1);
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
 }
 
 // t_command_table	*create_command_table(t_lexbuf *tokens, char **env)

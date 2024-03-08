@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/05 20:31:10 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:57:06 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void ft_free_list(t_lexbuf *tokens)
 	}
 }
 
-void ft_free(t_input *input, t_lexbuf *tokens, int leave)
+void ft_free(char *msg, t_input *input, t_lexbuf *tokens, int leave)
 {
+	if(msg)
+		printf("%s\n", msg);
     if(input->linebuffer)
-    {
-        free(input->linebuffer);
-    }
+		free(input->linebuffer);
 	ft_free_list(tokens);
 	if(leave == 1)
 		exit(1);
@@ -55,23 +55,4 @@ void	ft_free_tab(char **value)
 		}
 		free(value);
 	}
-}
-
-char **split_error(char *msg, char **strs)
-{
-	int i;
-	i = 0;
-	if(msg)
-		printf("%s\n",msg);
-	if(strs)
-	{
-		while(strs[i])
-		{
-			free(strs[i]);
-			i++;
-		}
-		free(strs);
-	}
-	strs = NULL;
-	return (strs);
 }

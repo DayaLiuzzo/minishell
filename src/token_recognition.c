@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:24:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/07 21:21:30 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/08 13:04:40 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_lexbuf	*get_last(t_lexbuf    *lst)
 	return (lst);
 }
 
-char *fill_tokens(char *s, int i)
+char *fill_tokens(char *s, int i, t_lexbuf *tokens, t_input *input)
 {
 	int j;
 	char *value;
@@ -40,7 +40,7 @@ char *fill_tokens(char *s, int i)
 		value = (char *)malloc(sizeof(char) * (i + 1));
 		if(!value)
 		{
-			printf("MALLOC ERROR IN TOKEN RECOGNITION\n");
+			ft_free("Alloc Error at fill_tokens", input, tokens, 1);
 			return NULL;
 		}
 		while(s[j] && j < i)
@@ -86,11 +86,9 @@ int token_type(char *s, int *i)
 		if (!ref_tab[j])
 				return (WORD);
 	}
-	printf("NONONO\n");
 	return(-1);
 }
-// 2| 1
-void	big_check(char *s, int *size, t_lexbuf *tokens)
+void	big_check(char *s, int *size, t_lexbuf *tokens, t_input *input)
 {
 	int i;
 	
@@ -112,10 +110,9 @@ void	big_check(char *s, int *size, t_lexbuf *tokens)
 		}
 	}
 	if (i != 0)
-		printf("mon index de fin = %i\n", i);
-	tokens->value = fill_tokens(s, i);
+	tokens->value = fill_tokens(s, i, tokens, input);
 	if(!tokens->value)
-		printf("Malloc_error"); 
+		ft_free("Alloc error at big_check", input, tokens, 1);
 	(*size) += i;
 }
 
@@ -132,7 +129,7 @@ t_lexbuf	*new_tokens(char *s, int *i)
 	return (new);
 }
 
-t_lexbuf *token_recognition(char *s)
+t_lexbuf *token_recognition(char *s, t_input *input)
 {
     t_lexbuf *tokens;
     t_lexbuf *tmp;
@@ -148,12 +145,12 @@ t_lexbuf *token_recognition(char *s)
 		if(s[i] && (is_space(s[i]) == 0))
 		{
 			tmp = new_tokens(s, &i);
-			big_check(&s[i], &i, tmp);
+			if(tmp == NULL)
+				ft_free("Alloc Failure in new_tokens", input, tokens, 1);
+			big_check(&s[i], &i, tmp, input);
 			if (tmp->value[0])
-				printf("tmp-> value ------> %s\n", tmp->value);
-
 			add_back(&tokens, tmp);
 		}
     }
-	return (tokens);
+	return (ft_addprev(tokens));
 }
