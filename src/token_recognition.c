@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:24:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/08 20:52:02 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 12:02:20 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,11 @@ t_lexbuf	*new_tokens(char *s, int *i)
 	return (new);
 }
 
-t_lexbuf *token_recognition(char *s, t_input *input)
+t_lexbuf *token_recognition(char *s, t_input *input, int i, char **env)
 {
     t_lexbuf *tokens;
     t_lexbuf *tmp;
-    int i;
     
-    i = 0;
 	tokens = NULL;
 	tmp = NULL;
     while(s[i])
@@ -149,13 +147,14 @@ t_lexbuf *token_recognition(char *s, t_input *input)
 				ft_free("Alloc Failure in new_tokens", input, &tokens, 1);
 			big_check(&s[i], &i, &tmp, input);
 			if (tmp->value[0])
-			add_back(&tokens, tmp);
+				add_back(&tokens, tmp);
 		}
     }
 	small_check(&tokens, input);
 	quote_check(&tokens, input);
 	if (token_context(input, &tokens) == 0 )
 		ft_free("Syntax Error", input, &tokens, 0);
+	expand(&tokens, input, env);
 	return (ft_addprev(tokens));
 }
 

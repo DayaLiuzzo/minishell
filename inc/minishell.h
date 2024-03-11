@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/08 20:43:59 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 11:56:42 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void						quote_check(t_lexbuf **tokens, t_input *input);
 void						big_check(char *s, int *size, t_lexbuf **tokens, t_input *input);
 void						add_back(t_lexbuf **lst, t_lexbuf *new);
 t_lexbuf					*new_tokens(char *s, int *i);
-t_lexbuf					*token_recognition(char *s, t_input *input);
+t_lexbuf					*token_recognition(char *s, t_input *input, int i);
 t_lexbuf					*get_last(t_lexbuf *lst);
 t_lexbuf					*ft_addprev(t_lexbuf *token);
 t_lexbuf					*get_last(t_lexbuf *lst);
