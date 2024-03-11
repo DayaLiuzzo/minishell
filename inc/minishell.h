@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 11:56:42 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 19:45:09 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,12 @@ typedef struct s_utils
 	int						i;
 	int						j;
 	int						start;
+	int						varname_start;
 	int						end;
+	int 					varname_len;
+	int						varcontent_len;
+	int						varcontent_start;
+	int						env_index;
 }							t_utils;
 
 typedef struct s_command_table
@@ -79,7 +84,7 @@ typedef struct s_lexbuf
 int							main(int ac, char **av, char **env);
 
 // INIT STRUCT
-
+void 						init_utils(t_utils *utils);
 void						init_struct(t_input *input);
 
 // FREE
@@ -102,12 +107,20 @@ void						quote_check(t_lexbuf **tokens, t_input *input);
 void						big_check(char *s, int *size, t_lexbuf **tokens, t_input *input);
 void						add_back(t_lexbuf **lst, t_lexbuf *new);
 t_lexbuf					*new_tokens(char *s, int *i);
-t_lexbuf					*token_recognition(char *s, t_input *input, int i);
+t_lexbuf					*token_recognition(char *s, t_input *input, int i, char **env);
 t_lexbuf					*get_last(t_lexbuf *lst);
 t_lexbuf					*ft_addprev(t_lexbuf *token);
 t_lexbuf					*get_last(t_lexbuf *lst);
 t_command_table				*create_command_table(t_lexbuf *tokens);
 
+//EXPAND
+int		find_envar(char *arg);
+void	expand(t_lexbuf **tokens, t_input *input, char **env);
+char *get_varname(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils);
+char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils);
+char *concatene_envar(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils);
+char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens, t_utils *utils);
+char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils);
 // REDIR
 // void						ft_redir(t_lexbuf *tokens, t_lexbuf *head,
 // 								t_split *split);
@@ -117,5 +130,6 @@ t_command_table				*create_command_table(t_lexbuf *tokens);
 // UTILS
 int							is_space(char c);
 void						skip(char *s, int *i, char del);
+int	ft_strncmpp(char *s1, char *s2, int n);
 
 #endif

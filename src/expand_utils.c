@@ -6,47 +6,52 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 16:44:56 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 20:19:48 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_varname(char *value, t_input *input, t_lexbuf **tokens)
+char *get_varname(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils)
 {
     int i;
     int j;
     char *tmp;
     
-    i = 0;
+    i = utils->start;
     j = 0;
     tmp = NULL;
-    while(value[i] && (is_alnum(value[i]) || value[i] == '_'))
+    while(value[i] && (ft_isalnum(value[i]) || value[i] == '_'))
         i++;
-    tmp = (char *)malloc(sizeof(char) * (i + 1));
+    utils->end = i;
+    utils->varname_len = (utils->end - utils->start);
+    tmp = (char *)malloc(sizeof(char) * (utils->varname_len + 1));
     if (!tmp)
         ft_free("Alloc Error at get_envar", input, tokens, 1);
-    while(j != i)
+    i = utils->start;
+    while(j != utils->varname_len)
     {
-        tmp[j] = value[j];
+        tmp[j] = value[i];
         j++;
+        i++;
     }
     tmp[j] = 0;
     return tmp;
 }
 
-char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens)
+char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils)
 {
     int i;
     int j;
     char *tmp;
     
-    i = 0;
+    i = utils->varcontent_start;
     j = 0;
     tmp = NULL;
     while(value[i])
         i++;
-    tmp = (char *)malloc(sizeof(char) * (i + 1));
+    utils->varcontent_len = i;
+    tmp = (char *)malloc(sizeof(char) * (utils->varcontent_len + 1));
     if (!tmp)
         ft_free("Alloc Error at get_envar", input, tokens, 1);
     while(j != i)
@@ -74,22 +79,34 @@ int	ft_strncmpp(char *s1, char *s2, int n)
 	}
 	return (0);
 }
-int		find_envar(char *arg);
+int		find_envar(char *arg)
 {
     int i;
+    int dquote;
 
 	i = 0;
+    dquote = 2;
     if(arg)
     {
-	    while (arg[i] && arg[i] != '$')
+	    while (arg[i])
 	    {
+            if (arg[i] == '\'' && dquote % 2 == 0)
+                skip(arg, &i, '\'');
+            if (arg[i] == '"')
+                dquote++;
 		    if (arg[i] == '$')
-			    if (arg[i + 1])
-				    if (is_alpha(arg[i + 1] == 1 || arg[i + 1]) == '_' || arg[i
-					    + 1] == '$')
-					    return (i++;);
+			    {
+                    if (arg[i + 1])
+				    {
+                            if (ft_isalpha(arg[i + 1]) == 1 || arg[i + 1] == '_' || arg[i
+					        + 1] == '$')
+					        {
+                                    return (i + 1);
+                            }
+                    }
+                }
             i++;
 	    }
     }
-    return (-1)
+    return (-1);
 }

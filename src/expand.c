@@ -6,37 +6,41 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 17:36:46 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 19:51:20 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	expand(t_lexbuf **tokens, t_input *input, char **env)
+void	expand(t_lexbuf **tokens, t_input *input, char **env)
 {
 	t_lexbuf *tmp;
-    int start;
+    t_utils utils;
     char *envar;
     char *new_value;
     
-	tmp = (*)tokens;
+    init_utils(&utils);
+	tmp = (*tokens);
     while(tmp)
     {
-        if((start = find_envar(tmp->value)) != -1)
+        if((utils.start = find_envar(tmp->value)) != -1)
         {
-            while(start = find_envar(tmp->value) != -1)
+            while(tmp->value && (utils.start = find_envar(tmp->value)) != -1)
             {
-                envar = get_envar(tmp->value[start], env, input, tokens);
-                new_value = concatene_envar(tmp->value, envar, input, tokens);
-                free(tmp->value);
+                envar = get_envar(tmp->value, env, input, tokens, &utils);
+                printf("envar ---->%s\n", envar);
+                new_value = concatene_envar(tmp->value, envar, input, tokens, &utils);
+                if(tmp->value)
+                    free(tmp->value);
                 tmp->value = new_value;
-                free(new_value);
+                if(new_value)
+                    free(new_value);
             }
         }
         tmp = tmp->next;
     }
 }
-char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens)
+char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens, t_utils *utils)
 {
     int i;
     int j;
@@ -46,73 +50,74 @@ char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens)
     i = 0;
     j = 0;
     varcontent = NULL;
-    varname = get_varname(value, input, tokens);
+    varname = get_varname(value, input, tokens, utils);
+    printf("varname ---> %s\n", varname);
     if(!varname)
         return NULL;
     while(env[i])
     {
-        if(ft_strncmpp(varname, env[i], ft_strlen(varname)) == 1)
+        if(ft_strncmpp(varname, env[i], utils->varname_len) == 1)
         {
             while(env[i][j] && env[i][j] != '=')
                 j++;
-            if (varcontent = get_varcontent(env[i][j], input, tokens) == NULL)
+            utils->varcontent_start = j;
+            if ((varcontent = get_varcontent(env[i], input, tokens, utils)) == NULL)
                 return NULL;
+            if(varname)
+            free(varname);
+            return(varcontent);
         }
         i++;
     }
-    if(varname)
-        free(varname);
     return(varcontent);
 }
 
-char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens)
+char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils)
 {
     int i;
-    int j;
     int k;
-    int start;
     char *tmp;
     
-    j = 0;
     k = 0;
-    start = find_envar(value) - 1;
-    i = start;
+    utils->start += -1;
+    i = utils->start;
     tmp = NULL;
-    while(value[i] && (is_alnum(value[i])  || value[i] == '_'))
+    while(value[i] && (ft_isalnum(value[i])  || value[i] == '_'))
         i++;
-    j = ft_strlen(envar);
-    if(tmp = (char *)malloc(sizeof(char) * start + j) == NULL)
+    if((tmp = (char *)malloc(sizeof(char) * (utils->start + utils->varcontent_len))) == NULL)
         ft_free("Alloc error concatene_envar", input, tokens, 1);
     i = 0;
-    while(i < start)
+    while(i < utils->start)
     {
         tmp[i] = value[i];
         i++; 
     }
-    while(i < start + j)
+    while(i < utils->start + utils->varcontent_len)
     {
         tmp[i] = envar[k];
         i++;
         k++;
     }
-    return (tmp[i] = 0);
+    tmp[i] = 0;
+    return (tmp);
 }
-char *concatene_envar(char *value, char *envar, t_input *input, t_lexbuf** tokens)
+char *concatene_envar(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils)
 {
     char *tmp;
     char *new_value;
-    t_utils utils;
     int i;
+    char *tmp2;
     
     new_value = NULL;
     i = find_envar(value);
-    tmp = expand_left(value, envar, input, tokens);
-    while(value[i] && (is_alnum(value[i])  || value[i] == '_'))
+    tmp = expand_left(value, envar, input, tokens, utils);
+    while(value[i] && (ft_isalnum(value[i])  || value[i] == '_'))
         i++;
-    new_value = ft_strjoin(tmp, value[i]);
+    tmp2 = &value[i];
+    new_value = ft_strjoin(tmp, tmp2);
     if(tmp)
     free(tmp);
     if(value)
     free(value);
-    return new_value;
+    return (new_value);
 }
