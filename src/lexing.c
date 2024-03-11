@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/08 12:32:06 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/11 14:37:01 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_lexbuf	*ft_addprev(t_lexbuf *token)
 	}
 	return (token);
 }
-
+1 2 3 4 5
 // t_command_table	*create_command_table(t_lexbuf *tokens, char **env)
 // {
 // 	t_lexbuf		*head;
