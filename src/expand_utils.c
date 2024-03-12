@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 20:19:48 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:40:34 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char *get_varname(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils
     return tmp;
 }
 
-char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils)
+char *get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens, t_utils *utils)
 {
     int i;
     int j;
@@ -48,16 +48,18 @@ char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *ut
     i = utils->varcontent_start;
     j = 0;
     tmp = NULL;
-    while(value[i])
+    while(env_value[i])
         i++;
-    utils->varcontent_len = i;
+    utils->varcontent_len = i - utils->varcontent_start;
     tmp = (char *)malloc(sizeof(char) * (utils->varcontent_len + 1));
     if (!tmp)
         ft_free("Alloc Error at get_envar", input, tokens, 1);
-    while(j != i)
+    i = utils->varcontent_start;
+    while(j != utils->varcontent_len)
     {
-        tmp[j] = value[j];
+        tmp[j] = env_value[i];
         j++;
+        i++;
     }
     tmp[j] = 0;
     return tmp;
@@ -75,6 +77,30 @@ int	ft_strncmpp(char *s1, char *s2, int n)
 				return (0);
 			i++;
 		}
+		return (1);
+	}
+	return (0);
+}
+int	strncmp_env(char *s1, char *s2, int n)
+{
+	int	i;
+    int j;
+    
+    j = 0;
+	i = 0;
+    while(s2 && s2[j] != '=')
+    j++;
+    
+	if (s1 || s2)
+	{
+		while (s1 && s1[i] && s2 && s2[i] && i < n)
+		{
+			if (s1[i] != s2[i])
+				return (0);
+			i++;
+		}
+        if (i != j)
+            return 0;
 		return (1);
 	}
 	return (0);

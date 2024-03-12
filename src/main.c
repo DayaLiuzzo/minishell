@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 18:29:58 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:48:58 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main (int ac, char **av, char **env)
         add_history(input.linebuffer);
         mytokens = token_recognition(input.linebuffer, &input, 0, env);
         // mycommands = build_commands(&input, &mytokens);
-        print_stack(mytokens);
+        // print_stack(mytokens);
         ft_free("", &input, &mytokens, 0);
     }
 }

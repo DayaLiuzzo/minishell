@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 19:45:09 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:40:46 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens, t
 int							is_space(char c);
 void						skip(char *s, int *i, char del);
 int	ft_strncmpp(char *s1, char *s2, int n);
+int	strncmp_env(char *s1, char *s2, int n);
 
 #endif
