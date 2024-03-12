@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 19:36:48 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/12 16:00:46 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void init_utils(t_utils *utils)
 {
     utils->i = 0;
     utils->j = 0;
-    utils->start = -1;
     utils->varname_start = -1;
     utils->end = 0;
     utils->varname_len = 0;

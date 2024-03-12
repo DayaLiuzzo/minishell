@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/12 14:40:46 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:17:47 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,6 @@ typedef struct s_utils
 	int						env_index;
 }							t_utils;
 
-typedef struct s_command_table
-{
-	char					**command;
-	char					**infile;
-	char					**outfile;
-	char 					**env;
-	struct s_command_table	*next;
-}							t_command_table;
-
 typedef struct s_input
 {
 	char					*linebuffer;
@@ -79,6 +70,19 @@ typedef struct s_lexbuf
 	char					*value;
 	int						type;
 }							t_lexbuf;
+
+typedef struct s_command_table
+{
+	char					**command;
+	char					**infile;
+	char					**outfile;
+	char 					**env;
+	char 					**heredoc;
+	char					**appoutredir;
+	t_lexbuf				*tokens;
+	t_input 				**input;
+	struct s_command_table	*next;
+}							t_command_table;
 
 // PROGRAM
 int							main(int ac, char **av, char **env);
