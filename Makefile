@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/11 19:33:12 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/13 20:54:46 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRCS =	$Smain.c \
 		$Sutils.c \
 		$Stoken_recognition.c \
 		$Sexpand_utils.c \
-		$Sexpand.c 
+		$Sexpand.c \
+		$Ssplit_expands.c
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

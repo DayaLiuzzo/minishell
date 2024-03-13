@@ -6,22 +6,41 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/12 17:43:22 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/13 14:35:19 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+void	negate_quotes(t_lexbuf **tokens)
+{
+	int i;
+	t_lexbuf *tmp;
+	
+	tmp = (*tokens);
+	while(tmp)
+	{
+		i = 0;
+		while(tmp->value && tmp->value[i])
+		{
+			if(tmp->value[i] == '\'')
+				tmp->value[i] = -39;
+			if(tmp->value[i] == '"')
+				tmp->value[i] = -34;
+			i++;
+		}
+		tmp = tmp->next;
+	}
+}
 void	expand(t_lexbuf **tokens, t_input *input, char **env)
 {
 	t_lexbuf	*tmp;
 	t_utils		utils;
 	char		*envar;
 	char		*new_value;
-    // int i = 0;
-    
+	 
 	init_utils(&utils);
 	tmp = (*tokens);
+	negate_quotes(tokens);
 	while (tmp)
 	{
 		while (tmp->value && (utils.start = find_envar(tmp->value)) != -1)
@@ -30,8 +49,6 @@ void	expand(t_lexbuf **tokens, t_input *input, char **env)
 			envar = get_envar(tmp->value, env, input, tokens, &utils);
 			new_value = concatene_envar(tmp->value, envar, input, tokens,
 					&utils);
-            // while(new_value[i])
-            //     new_value[i] = new_value[i] * -1;
 			if (tmp->value)
 				free(tmp->value);
 			tmp->value = new_value;

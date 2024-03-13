@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/12 17:43:10 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:12:44 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens,
 	while (j != utils->varcontent_len)
 	{
 		tmp[j] = env_value[i];
+		if(is_space(env_value[i]) == 1)
+			tmp[j] = -32;
 		j++;
 		i++;
 	}
@@ -117,12 +119,9 @@ int	find_envar(char *arg)
 	{
 		while (arg[i])
 		{
-            // if (arg[i] < 0)
-            //     while(arg[i] < 0 )
-            //         i++;
-			if (arg[i] == '\'' && dquote % 2 == 0)
-				skip(arg, &i, '\'');
-			if (arg[i] == '"')
+			if (arg[i] == -39 && dquote % 2 == 0)
+				skip(arg, &i, -39);
+			if (arg[i] == -34)
 				dquote++;
 			if (arg[i] == '$')
 			{
@@ -138,3 +137,36 @@ int	find_envar(char *arg)
 	}
 	return (-1);
 }
+
+// int	find_envar(char *arg)
+// {
+// 	int	i;
+// 	int	dquote;
+
+// 	i = 0;
+// 	dquote = 2;
+// 	if (arg)
+// 	{
+// 		while (arg[i])
+// 		{
+//             // if (arg[i] < 0)
+//             //     while(arg[i] < 0 )
+//             //         i++;
+// 			if (arg[i] == '\'' && dquote % 2 == 0)
+// 				skip(arg, &i, '\'');
+// 			if (arg[i] == '"')
+// 				dquote++;
+// 			if (arg[i] == '$')
+// 			{
+// 				if (arg[i + 1])
+// 				{
+// 					if (ft_isalpha(arg[i + 1]) == 1 || arg[i + 1] == '_'
+// 						|| arg[i + 1] == '$')
+// 						return (i + 1);
+// 				}
+// 			}
+// 			i++;
+// 		}
+// 	}
+// 	return (-1);
+// }

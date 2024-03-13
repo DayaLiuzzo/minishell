@@ -6,13 +6,14 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/12 18:00:24 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/13 21:00:40 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //CHAR BY CHAR PARSING
+
 int main (int ac, char **av, char **env)
 {
     t_input input;
@@ -20,7 +21,8 @@ int main (int ac, char **av, char **env)
     // t_command_table *mycommands;
     (void)av;
     (void)env;
-    char str[2] = {-32, -34};
+    
+    // char str[2] = {-32, -34};
     if(ac != 1)
         exit(1);
     while(1)
@@ -30,7 +32,9 @@ int main (int ac, char **av, char **env)
         add_history(input.linebuffer);
         mytokens = token_recognition(input.linebuffer, &input, 0, env);
         // mycommands = build_commands(&input, &mytokens);
+        split_expands(&mytokens, &input);
         print_stack(mytokens);
+        // new = remove_quotes(mytokens->value);
         ft_free("", &input, &mytokens, 0);
     }
 }
@@ -40,3 +44,8 @@ int main (int ac, char **av, char **env)
 // {
     
 // }
+
+
+
+
+
