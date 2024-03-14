@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 21:00:40 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/14 16:30:47 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main (int ac, char **av, char **env)
         mytokens = token_recognition(input.linebuffer, &input, 0, env);
         // mycommands = build_commands(&input, &mytokens);
         split_expands(&mytokens, &input);
+        printf("MAIN\n");
         print_stack(mytokens);
         // new = remove_quotes(mytokens->value);
         ft_free("", &input, &mytokens, 0);

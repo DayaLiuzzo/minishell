@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:24:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 19:03:29 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/14 13:08:14 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ t_lexbuf	*new_tokens(char *s, int *i)
 	new = malloc(sizeof(t_lexbuf));
 	if (new == NULL)
 		return (NULL);
+	new->value = NULL;
 	new->type = token_type(s, i);
 	new->next = NULL;
 	return (new);

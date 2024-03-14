@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:51:08 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 21:07:24 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/14 17:54:49 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,51 @@
 
 void split_expands(t_lexbuf **tokens, t_input *input)
 {
-    t_lexbuf *tmp_list;
+    t_lexbuf *tmp_listhead;
+    t_lexbuf *current;
+    t_lexbuf *tmp_listend;
     t_lexbuf *tmp;
-    t_lexbuf *nextone;
+    t_lexbuf *tmp2;
+    t_lexbuf *tmp3;
+    int i = 0;
+    
     char **new_strs;
-    tmp = *tokens;
-    while(tmp)
+    current = *tokens;
+    tmp3 = *tokens;
+    while(current)
     {
-        if(tmp->value)
+        tmp = current;
+        if(current->value)
         {   
             // if(quoted spaces== 1)
             // {
-                nextone = tmp->next;
-                // new_value = remove_quotes(tmp->value);
-                new_strs = ft_split(tmp->value, -32);
-                print_tab(new_strs);
-                tmp_list = create_tmp_list(new_strs, tmp, tokens, input);
-                print_stack(tmp_list);
-                free(tmp->value);
-                free(tmp);
-                tmp = tmp_list;
-                tmp->next = nextone;
-
+                if (current->value[0] != '\0')
+                {
+                    i++;
+                    if (current->prev)
+                        tmp2 = current->prev;
+                    new_strs = ft_split(current->value, -32);
+                    // print_tab(new_strs);
+                    tmp_listhead = create_tmp_list(new_strs, current, tokens, input); 
+                    ft_addprev(tmp_listhead);
+                    tmp_listend = get_last(tmp_listhead);
+                    tmp_listend->next = tmp->next;
+                    // printf("current ---> %s\ni ---->%i\n", current->value, i);
+                    if (current->prev)
+                    {
+                        tmp_listhead->prev = tmp2;
+                        tmp2->next = tmp_listhead;
+                    }
+                    else if(!current->prev)
+                        *tokens = tmp_listhead;
+                    current = tmp_listhead;
+                    print_stack(current);
+                }
             // }
         }
-        tmp = tmp->next;
+        current = tmp->next;
     }
+    // print_stack(tmp3);
 }
 t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens)
 {
@@ -55,7 +74,7 @@ t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens)
     if (!new->value)
         exit(1);
     if(tokens)
-        printf("\n");
+        printf("1\n");
     return (new);
 }
 t_lexbuf  *create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens, t_input *input)
@@ -69,11 +88,10 @@ t_lexbuf  *create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens, t_
     tmpp = NULL;
     while(new_strs[i])
     {
-		newtokens = new_tokens_pexpand(new_strs[i], tmp->type, tokens);
-		if(newtokens == NULL)
+		tmpp = new_tokens_pexpand(new_strs[i], tmp->type, tokens);
+		if(tmpp == NULL)
 			ft_free("Alloc Failure in new_tokens", input, tokens, 1);
-		if (newtokens->value[0])
-				add_back(&tmpp, newtokens);
+		add_back(&newtokens, tmpp);
         i++;
 	}
     return(newtokens);
