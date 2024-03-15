@@ -6,69 +6,31 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 17:41:51 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:24:47 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	negate_quotes(t_lexbuf **tokens)
-{
-	int i;
-	t_lexbuf *tmp;
-	
-	tmp = (*tokens);
-	while(tmp)
-	{
-		i = 0;
-		while(tmp->value && tmp->value[i])
-		{
-			if(tmp->value[i] == '\'')
-				tmp->value[i] = -39;
-			if(tmp->value[i] == '"')
-				tmp->value[i] = -34;
-			i++;
-		}
-		tmp = tmp->next;
-	}
-}
-void	pos_quotes(t_lexbuf **tokens)
-{
-	int i;
-	t_lexbuf *tmp;
-	
-	tmp = (*tokens);
-	while(tmp)
-	{
-		i = 0;
-		while(tmp->value && tmp->value[i])
-		{
-			if(tmp->value[i] == -39)
-				tmp->value[i] = '\'';
-			if(tmp->value[i] == -34)
-				tmp->value[i] = '"';
-			i++;
-		}
-		tmp = tmp->next;
-	}
-}
+
 void	expand(t_lexbuf **tokens, t_input *input, char **env)
 {
 	t_lexbuf	*tmp;
 	t_utils		utils;
 	char		*envar;
 	char		*new_value;
-	 
+
 	init_utils(&utils);
 	tmp = (*tokens);
 	negate_quotes(tokens);
 	while (tmp)
 	{
-		while (tmp->value && tmp->type != HEREDOC && (utils.start = find_envar(tmp->value)) != -1)
+		while (tmp->value && tmp->type != HEREDOC
+			&& (utils.start = find_envar(tmp->value)) != -1)
 		{
 			init_utils(&utils);
 			envar = get_envar(tmp->value, env, input, tokens, &utils);
 			new_value = concatene_envar(tmp->value, envar, input, tokens,
-				&utils);
+					&utils);
 			if (tmp->value)
 				free(tmp->value);
 			tmp->value = new_value;
@@ -76,6 +38,7 @@ void	expand(t_lexbuf **tokens, t_input *input, char **env)
 		tmp = tmp->next;
 	}
 }
+
 char	*get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens,
 		t_utils *utils)
 {
@@ -97,8 +60,8 @@ char	*get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens,
 			while (env[i][j] && env[i][j] != '=')
 				j++;
 			utils->varcontent_start = j + 1;
-			if ((varcontent = get_varcontent(env[i], input, tokens,
-						utils, value)) == NULL)
+			if ((varcontent = get_varcontent(env[i], input, tokens, utils,
+						value)) == NULL)
 				return (NULL);
 			if (varname)
 				free(varname);
@@ -108,6 +71,7 @@ char	*get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens,
 	}
 	return (varcontent);
 }
+
 
 char	*expand_left(char *value, char *envar, t_input *input,
 		t_lexbuf **tokens, t_utils *utils)
@@ -140,6 +104,7 @@ char	*expand_left(char *value, char *envar, t_input *input,
 	tmp[i] = 0;
 	return (tmp);
 }
+
 char	*concatene_envar(char *tokenvalue, char *envar, t_input *input,
 		t_lexbuf **tokens, t_utils *utils)
 {

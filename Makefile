@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/15 16:44:43 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/15 18:29:41 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,13 +39,14 @@ LDFLAGS = -L$L -lft
 SRCS =	$Smain.c \
 		$Sinit.c \
 		$Slexing.c \
-		$Sfree.c \
+		$Slexing_utils.c \
 		$Sutils.c \
-		$Stoken_recognition.c \
-		$Sexpand_utils.c \
 		$Sexpand.c \
 		$Ssplit_expands.c \
-		$Squotes.c
+		$Sexpand_utils.c \
+		$Sfree.c \
+		$Squotes.c \
+		$Sutils_2.c 
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

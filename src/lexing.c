@@ -6,28 +6,138 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/11 18:54:03 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:28:02 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexbuf	*ft_addprev(t_lexbuf *token)
-{
-	t_lexbuf	*tmp;
-	t_lexbuf	*tmp2;
 
-	if (token)
+t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
+{
+	t_lexbuf	*tokens;
+	t_lexbuf	*tmp;
+
+	tokens = NULL;
+	tmp = NULL;
+	while (s[i])
 	{
-		token->prev = NULL;
-		tmp = token;
-		tmp2 = token->next;
-		while (tmp && tmp2)
+		while (s[i] && (is_space(s[i]) == 1))
+			i++;
+		if (s[i] && (is_space(s[i]) == 0))
 		{
-			tmp2->prev = tmp;
-			tmp = tmp->next;
-			tmp2 = tmp2->next;
+			tmp = new_tokens(s, &i);
+			if (tmp == NULL)
+				ft_free("Alloc Failure in new_tokens", input, &tokens, 1);
+			big_check(&s[i], &i, &tmp, input);
+			if (tmp->value[0])
+				add_back(&tokens, tmp);
 		}
 	}
-	return (token);
+	small_check(&tokens, input);
+	quote_check(&tokens, input);
+	if (token_context(input, &tokens) == 0)
+		ft_free("Syntax Error", input, &tokens, 0);
+	expand(&tokens, input, env);
+	return (ft_addprev(tokens));
+}
+
+void	big_check(char *s, int *size, t_lexbuf **tokens, t_input *input)
+{
+	int	i;
+
+	i = 0;
+	if (s)
+	{
+		while (s[i])
+		{
+			if (s[i] == '"')
+				skip(s, &i, '"');
+			if (s[i] == 39)
+				skip(s, &i, '\'');
+			if (token_type(s, &i) == TAB_ || token_type(s, &i) == SPACE_)
+				break ;
+			if ((*tokens)->type == token_type(s, &i))
+				i++;
+			else
+				break ;
+		}
+	}
+	if (i != 0)
+		(*tokens)->value = fill_tokens(s, i, tokens, input);
+	if (!(*tokens)->value)
+		ft_free("Alloc error at big_check", input, tokens, 1);
+	(*size) += i;
+}
+
+void	small_check(t_lexbuf **tokens, t_input *input)
+{
+	t_lexbuf	*tmp;
+	int			i;
+
+	tmp = *tokens;
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->value && tmp->value[i])
+			i++;
+		if ((tmp->type == PIPE && i > 1) || (tmp->next
+				&& tmp->next->type == PIPE && tmp->type == PIPE))
+			(ft_free("parse error near '|'", input, tokens, 0), tmp = NULL);
+		else if ((tmp->type == INREDIR && i > 2) || (tmp->next
+				&& tmp->next->type == INREDIR && tmp->type == INREDIR))
+			(ft_free("parse error near '<'", input, tokens, 0), tmp = NULL);
+		else if (tmp->type == INREDIR && i == 2)
+			tmp->type = HEREDOC;
+		else if ((tmp->type == OUTREDIR && i > 2) || (tmp->next
+				&& tmp->next->type == OUTREDIR && tmp->type == OUTREDIR))
+			(ft_free("parse error near '>'", input, tokens, 0), tmp = NULL);
+		else if (tmp->type == OUTREDIR && i == 2)
+			tmp->type = APPOUTREDIR;
+		if (tmp)
+			tmp = tmp->next;
+	}
+}
+int	token_type(char *s, int *i)
+{
+	static char	ref_tab[6] = {'<', '>', '|', ' ', '\t', 0};
+	int			j;
+
+	j = 0;
+	if (s)
+	{
+		while (ref_tab[j])
+		{
+			if (s[*i] == ref_tab[j])
+				return (j);
+			j++;
+		}
+		if (!ref_tab[j])
+			return (WORD);
+	}
+	return (-1);
+}
+char	*fill_tokens(char *s, int i, t_lexbuf **tokens, t_input *input)
+{
+	int		j;
+	char	*value;
+
+	j = 0;
+	value = NULL;
+	if (s)
+	{
+		value = (char *)malloc(sizeof(char) * (i + 1));
+		if (!value)
+		{
+			ft_free("Alloc Error at fill_tokens", input, tokens, 1);
+			return (NULL);
+		}
+		while (s[j] && j < i)
+		{
+			value[j] = s[j];
+			j++;
+		}
+		value[j] = 0;
+	}
+	return (value);
 }

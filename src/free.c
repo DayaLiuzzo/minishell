@@ -6,13 +6,13 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 14:06:50 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:17:50 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_free_list(t_lexbuf **tokens)
+void	ft_free_list(t_lexbuf **tokens)
 {
 	t_lexbuf	*tmp;
 
@@ -31,18 +31,18 @@ void ft_free_list(t_lexbuf **tokens)
 	tokens = NULL;
 }
 
-void ft_free(char *msg, t_input *input, t_lexbuf **tokens, int leave)
+void	ft_free(char *msg, t_input *input, t_lexbuf **tokens, int leave)
 {
-	if(msg != NULL)
+	if (msg != NULL)
 		printf("%s\n", msg);
-    if(input->linebuffer)
+	if (input->linebuffer)
 	{
-			free(input->linebuffer);
-			input->linebuffer = NULL;
+		free(input->linebuffer);
+		input->linebuffer = NULL;
 	}
 	ft_free_list(tokens);
 	tokens = NULL;
-	if(leave == 1)
+	if (leave == 1)
 		exit(1);
 }
 

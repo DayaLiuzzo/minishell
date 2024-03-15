@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:51:08 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 14:08:52 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:20:25 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_lexbuf	*split_expands(t_lexbuf **old_list_head, t_input *input)
 	}
 	return (new_list_head);
 }
+
 t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 		t_input *input)
 {
@@ -55,6 +56,7 @@ t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 		ft_free("malloc error at new_tokens_pexpand", input, tokens, 1);
 	return (new);
 }
+
 t_lexbuf	*create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens,
 		t_input *input)
 {
