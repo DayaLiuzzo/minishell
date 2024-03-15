@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 20:53:55 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 13:41:38 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ char *concatene_envar(char *value, char *envar, t_input *input, t_lexbuf** token
 char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens, t_utils *utils);
 char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils);
 t_lexbuf  *create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens, t_input *input);
-t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens);
-void split_expands(t_lexbuf **tokens, t_input *input);
+t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens, t_input *input);
+t_lexbuf *split_expands(t_lexbuf **tokens, t_input *input);
 
 // REDIR
 // void						ft_redir(t_lexbuf *tokens, t_lexbuf *head,
