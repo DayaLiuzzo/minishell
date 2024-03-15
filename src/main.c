@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 13:44:38 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:45:22 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ int main (int ac, char **av, char **env)
         add_history(input.linebuffer);
         mytokens = token_recognition(input.linebuffer, &input, 0, env);
         new_tokens = split_expands(&mytokens, &input);
-        // mycommands = build_commands(&input, &mytokens);
+        quotes_removal(&new_tokens, &input);
+        
         print_stack(new_tokens);
-        // new = remove_quotes(mytokens->value);
-        ft_free("", &input, &mytokens, 0);
+        ft_free_list(&mytokens);
+        ft_free("", &input, &new_tokens, 0);
+        // mycommands = build_commands(&input, &mytokens);
     }
 }
 //NEGATIVE LES DOUBLE QUOTE DU MOT ORIGINAL PR LES DELETE POST EXPAND
@@ -45,8 +47,3 @@ int main (int ac, char **av, char **env)
 // {
     
 // }
-
-
-
-
-

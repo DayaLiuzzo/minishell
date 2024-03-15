@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 13:41:38 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:17:01 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,8 @@ typedef struct s_lexbuf
 typedef struct s_command_table
 {
 	char					**command;
-	char					**infile;
-	char					**outfile;
-	char 					**env;
-	char 					**heredoc;
-	char					**appoutredir;
+	int 					**env;
+	char 					heredoc;
 	t_lexbuf				*tokens;
 	t_input 				**input;
 	struct s_command_table	*next;
@@ -131,12 +128,11 @@ t_lexbuf  *create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens, t_
 t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens, t_input *input);
 t_lexbuf *split_expands(t_lexbuf **tokens, t_input *input);
 
-// REDIR
-// void						ft_redir(t_lexbuf *tokens, t_lexbuf *head,
-// 								t_split *split);
-// void						ft_inredir(t_lexbuf *tokens, t_lexbuf *head,
-// 								t_split *split);
-
+//QUOTES
+char *remove_quotes(char *src, t_lexbuf **tokens, t_input *input);
+void count_quotesrm(char *src, int *i, int *del);
+void quotes_removal(t_lexbuf **tokens, t_input *input);
+char *ft_join_quotes(char *src, char *new_str, int len);
 // UTILS
 int							is_space(char c);
 void						skip(char *s, int *i, char del);

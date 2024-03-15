@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/12 13:13:30 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 14:06:50 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void ft_free_list(t_lexbuf **tokens)
 			free(tmp);
 		}
 	}
+	tokens = NULL;
 }
 
 void ft_free(char *msg, t_input *input, t_lexbuf **tokens, int leave)

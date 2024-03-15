@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 14:35:19 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:47:33 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	expand(t_lexbuf **tokens, t_input *input, char **env)
 	negate_quotes(tokens);
 	while (tmp)
 	{
-		while (tmp->value && (utils.start = find_envar(tmp->value)) != -1)
+		while (tmp->value && tmp->type != HEREDOC && (utils.start = find_envar(tmp->value)) != -1)
 		{
 			init_utils(&utils);
 			envar = get_envar(tmp->value, env, input, tokens, &utils);
 			new_value = concatene_envar(tmp->value, envar, input, tokens,
-					&utils);
+				&utils);
 			if (tmp->value)
 				free(tmp->value);
 			tmp->value = new_value;
