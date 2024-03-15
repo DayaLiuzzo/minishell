@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/13 16:12:44 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 17:57:14 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,35 @@ char	*get_varname(char *value, t_input *input, t_lexbuf **tokens,
 	tmp[j] = 0;
 	return (tmp);
 }
+int is_indquote(char *s, t_utils *utils)
+{
+	int i;
+	int dquote;
 
+	dquote = 2;
+	i = utils->start;
+	while(i >= 0 && s[i])
+	{
+		if(s[i] == -34)
+			dquote++;
+		i--;
+	}
+	if(dquote %2 != 0)
+		return (1);
+	dquote = 2;
+	i = utils->end;
+	while(s[i])
+	{
+		if(s[i] == -34)
+		dquote++;
+		i++;
+	}
+	if(dquote %2 != 0)
+		return (1);
+	return(0);
+}
 char	*get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens,
-		t_utils *utils)
+		t_utils *utils, char *s)
 {
 	int		i;
 	int		j;
@@ -60,7 +86,7 @@ char	*get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens,
 	while (j != utils->varcontent_len)
 	{
 		tmp[j] = env_value[i];
-		if(is_space(env_value[i]) == 1)
+		if((is_space(env_value[i]) == 1) && (is_indquote(s, utils) == 0))
 			tmp[j] = -32;
 		j++;
 		i++;

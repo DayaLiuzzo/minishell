@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 16:45:22 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:14:29 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,10 @@ int main (int ac, char **av, char **env)
         mytokens = token_recognition(input.linebuffer, &input, 0, env);
         new_tokens = split_expands(&mytokens, &input);
         quotes_removal(&new_tokens, &input);
-        
+        pos_quotes(&new_tokens);
         print_stack(new_tokens);
         ft_free_list(&mytokens);
         ft_free("", &input, &new_tokens, 0);
         // mycommands = build_commands(&input, &mytokens);
     }
 }
-//NEGATIVE LES DOUBLE QUOTE DU MOT ORIGINAL PR LES DELETE POST EXPAND
-//ET CONSERVER LES QUOTE DE LEXPAND
-// t_command_table *build_commands(t_input *input, t_lexbuf **tokens)
-// {
-    
-// }

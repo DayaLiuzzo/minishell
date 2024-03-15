@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 16:47:33 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 17:41:51 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ void	negate_quotes(t_lexbuf **tokens)
 				tmp->value[i] = -39;
 			if(tmp->value[i] == '"')
 				tmp->value[i] = -34;
+			i++;
+		}
+		tmp = tmp->next;
+	}
+}
+void	pos_quotes(t_lexbuf **tokens)
+{
+	int i;
+	t_lexbuf *tmp;
+	
+	tmp = (*tokens);
+	while(tmp)
+	{
+		i = 0;
+		while(tmp->value && tmp->value[i])
+		{
+			if(tmp->value[i] == -39)
+				tmp->value[i] = '\'';
+			if(tmp->value[i] == -34)
+				tmp->value[i] = '"';
 			i++;
 		}
 		tmp = tmp->next;
@@ -78,7 +98,7 @@ char	*get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens,
 				j++;
 			utils->varcontent_start = j + 1;
 			if ((varcontent = get_varcontent(env[i], input, tokens,
-						utils)) == NULL)
+						utils, value)) == NULL)
 				return (NULL);
 			if (varname)
 				free(varname);

@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 16:17:01 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 17:42:39 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ t_command_table				*create_command_table(t_lexbuf *tokens);
 int		find_envar(char *arg);
 void	expand(t_lexbuf **tokens, t_input *input, char **env);
 char *get_varname(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils);
-char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils);
+char *get_varcontent(char *value, t_input *input, t_lexbuf **tokens, t_utils *utils, char *s);
 char *concatene_envar(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils);
 char *get_envar(char *value, char **env, t_input *input, t_lexbuf **tokens, t_utils *utils);
 char *expand_left(char *value, char *envar, t_input *input, t_lexbuf** tokens, t_utils *utils);
@@ -139,5 +139,7 @@ void						skip(char *s, int *i, char del);
 int	ft_strncmpp(char *s1, char *s2, int n);
 int	strncmp_env(char *s1, char *s2, int n);
 void	negate_quotes(t_lexbuf **tokens);
+int is_indquote(char *s, t_utils *utils);
+void	pos_quotes(t_lexbuf **tokens);
 
 #endif

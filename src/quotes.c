@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:44:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 16:44:31 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/15 17:43:19 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char *remove_quotes(char *src, t_lexbuf **tokens, t_input *input)
     if((new_str = (char *)malloc(sizeof(char) * (i + 1 - del))) == NULL)
         ft_free("Malloc Error at remove_quotes", input, tokens, 1);
     new_str = ft_join_quotes(src, new_str, i - del);
-    printf("new_str----> %s\n", new_str);
     return (new_str);
 }
 void count_quotesrm(char *src, int *i, int *del)
