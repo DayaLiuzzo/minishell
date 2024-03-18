@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 17:55:20 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 18:25:26 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:20:15 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	print_tab(char **strs)
 		}
 	}
 }
+
 int	ft_strncmpp(char *s1, char *s2, int n)
 {
 	int	i;

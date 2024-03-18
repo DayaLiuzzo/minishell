@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:51:08 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 18:20:25 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:21:52 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,20 @@ t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 	if (new == NULL)
 		return (NULL);
 	new->type = type;
+	new->input = input;
 	new->next = NULL;
 	new->value = ft_strdup(s);
 	if (!new->value)
-		ft_free("malloc error at new_tokens_pexpand", input, tokens, 1);
+		ft_free("malloc error at new_tokens_pexpand", tokens, 1);
 	return (new);
 }
 
 t_lexbuf	*create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens,
 		t_input *input)
 {
-	int i;
-	t_lexbuf *newtokens;
-	t_lexbuf *tmpp;
+	int			i;
+	t_lexbuf	*newtokens;
+	t_lexbuf	*tmpp;
 
 	i = 0;
 	newtokens = NULL;
@@ -71,7 +72,7 @@ t_lexbuf	*create_tmp_list(char **new_strs, t_lexbuf *tmp, t_lexbuf **tokens,
 	{
 		tmpp = new_tokens_pexpand(new_strs[i], tmp->type, tokens, input);
 		if (tmpp == NULL)
-			ft_free("Alloc Failure in new_tokens", input, tokens, 1);
+			ft_free("Alloc Failure in new_tokens", tokens, 1);
 		add_back(&newtokens, tmpp);
 		i++;
 	}

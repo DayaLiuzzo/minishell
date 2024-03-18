@@ -6,12 +6,11 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 15:49:21 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:19:54 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 {
@@ -26,23 +25,23 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 			i++;
 		if (s[i] && (is_space(s[i]) == 0))
 		{
-			tmp = new_tokens(s, &i);
+			tmp = new_tokens(s, &i, input);
 			if (tmp == NULL)
-				ft_free("Alloc Failure in new_tokens", input, &tokens, 1);
-			big_check(&s[i], &i, &tmp, input);
+				ft_free("Alloc Failure in new_tokens", &tokens, 1);
+			big_check(&s[i], &i, &tmp);
 			if (tmp->value[0])
 				add_back(&tokens, tmp);
 		}
 	}
-	small_check(&tokens, input);
-	quote_check(&tokens, input);
-	if (token_context(input, &tokens) == 0)
-		ft_free("Syntax Error", input, &tokens, 0);
-	expand(&tokens, input, env);
+	small_check(&tokens);
+	quote_check(&tokens);
+	if (token_context(&tokens) == 0)
+		ft_free("Syntax Error", &tokens, 0);
+	expand(&tokens, env);
 	return (ft_addprev(tokens));
 }
 
-void	big_check(char *s, int *size, t_lexbuf **tokens, t_input *input)
+void	big_check(char *s, int *size, t_lexbuf **tokens)
 {
 	int	i;
 
@@ -64,13 +63,13 @@ void	big_check(char *s, int *size, t_lexbuf **tokens, t_input *input)
 		}
 	}
 	if (i != 0)
-		(*tokens)->value = fill_tokens(s, i, tokens, input);
+		(*tokens)->value = fill_tokens(s, i, tokens);
 	if (!(*tokens)->value)
-		ft_free("Alloc error at big_check", input, tokens, 1);
+		ft_free("Alloc error at big_check", tokens, 1);
 	(*size) += i;
 }
 
-void	small_check(t_lexbuf **tokens, t_input *input)
+void	small_check(t_lexbuf **tokens)
 {
 	t_lexbuf	*tmp;
 	int			i;
@@ -83,21 +82,22 @@ void	small_check(t_lexbuf **tokens, t_input *input)
 			i++;
 		if ((tmp->type == PIPE && i > 1) || (tmp->next
 				&& tmp->next->type == PIPE && tmp->type == PIPE))
-			(ft_free("parse error near '|'", input, tokens, 0), tmp = NULL);
+			(ft_free("parse error near '|'", tokens, 0), tmp = NULL);
 		else if ((tmp->type == INREDIR && i > 2) || (tmp->next
 				&& tmp->next->type == INREDIR && tmp->type == INREDIR))
-			(ft_free("parse error near '<'", input, tokens, 0), tmp = NULL);
+			(ft_free("parse error near '<'", tokens, 0), tmp = NULL);
 		else if (tmp->type == INREDIR && i == 2)
 			tmp->type = HEREDOC;
 		else if ((tmp->type == OUTREDIR && i > 2) || (tmp->next
 				&& tmp->next->type == OUTREDIR && tmp->type == OUTREDIR))
-			(ft_free("parse error near '>'", input, tokens, 0), tmp = NULL);
+			(ft_free("parse error near '>'", tokens, 0), tmp = NULL);
 		else if (tmp->type == OUTREDIR && i == 2)
 			tmp->type = APPOUTREDIR;
 		if (tmp)
 			tmp = tmp->next;
 	}
 }
+
 int	token_type(char *s, int *i)
 {
 	static char	ref_tab[6] = {'<', '>', '|', ' ', '\t', 0};
@@ -117,7 +117,8 @@ int	token_type(char *s, int *i)
 	}
 	return (-1);
 }
-char	*fill_tokens(char *s, int i, t_lexbuf **tokens, t_input *input)
+
+char	*fill_tokens(char *s, int i, t_lexbuf **tokens)
 {
 	int		j;
 	char	*value;
@@ -129,7 +130,7 @@ char	*fill_tokens(char *s, int i, t_lexbuf **tokens, t_input *input)
 		value = (char *)malloc(sizeof(char) * (i + 1));
 		if (!value)
 		{
-			ft_free("Alloc Error at fill_tokens", input, tokens, 1);
+			ft_free("Alloc Error at fill_tokens", tokens, 1);
 			return (NULL);
 		}
 		while (s[j] && j < i)

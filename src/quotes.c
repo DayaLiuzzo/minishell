@@ -6,13 +6,13 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:44:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 15:59:53 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:38:37 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	quotes_removal(t_lexbuf **tokens, t_input *input)
+void	quotes_removal(t_lexbuf **tokens)
 {
 	t_lexbuf	*current;
 	char		*tmp;
@@ -24,12 +24,12 @@ void	quotes_removal(t_lexbuf **tokens, t_input *input)
 		{
 			tmp = ft_strdup(current->value);
 			free(current->value);
-			current->value = remove_quotes(tmp, tokens, input);
+			current->value = remove_quotes(tmp, tokens);
 		}
 		current = current->next;
 	}
 	if (!tokens)
-		ft_free("alloc error quotes removal", input, tokens, 1);
+		ft_free("alloc error quotes removal", tokens, 1);
 }
 
 char	*ft_join_quotes(char *src, char *new_str, int len)
@@ -74,7 +74,7 @@ char	*ft_join_quotes(char *src, char *new_str, int len)
 	return (new_str);
 }
 
-char	*remove_quotes(char *src, t_lexbuf **tokens, t_input *input)
+char	*remove_quotes(char *src, t_lexbuf **tokens)
 {
 	int		i;
 	int		del;
@@ -92,7 +92,7 @@ char	*remove_quotes(char *src, t_lexbuf **tokens, t_input *input)
 		return (new_str);
 	}
 	if ((new_str = (char *)malloc(sizeof(char) * (i + 1 - del))) == NULL)
-		ft_free("Malloc Error at remove_quotes", input, tokens, 1);
+		ft_free("Malloc Error at remove_quotes", tokens, 1);
 	new_str = ft_join_quotes(src, new_str, i - del);
 	return (new_str);
 }

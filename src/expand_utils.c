@@ -6,14 +6,13 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 13:57:33 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:21:40 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_varname(char *value, t_input *input, t_lexbuf **tokens,
-		t_utils *utils)
+char	*get_varname(char *value, t_lexbuf **tokens, t_utils *utils)
 {
 	int		i;
 	int		j;
@@ -28,7 +27,7 @@ char	*get_varname(char *value, t_input *input, t_lexbuf **tokens,
 	utils->varname_len = (utils->end - utils->start);
 	tmp = (char *)malloc(sizeof(char) * (utils->varname_len + 1));
 	if (!tmp)
-		ft_free("Alloc Error at get_envar", input, tokens, 1);
+		ft_free("Alloc Error at get_envar", tokens, 1);
 	i = utils->start;
 	while (j != utils->varname_len)
 	{
@@ -40,8 +39,8 @@ char	*get_varname(char *value, t_input *input, t_lexbuf **tokens,
 	return (tmp);
 }
 
-char	*get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens,
-		t_utils *utils, char *s)
+char	*get_varcontent(char *env_value, t_lexbuf **tokens, t_utils *utils,
+		char *s)
 {
 	int		i;
 	int		j;
@@ -55,7 +54,7 @@ char	*get_varcontent(char *env_value, t_input *input, t_lexbuf **tokens,
 	utils->varcontent_len = i - utils->varcontent_start;
 	tmp = (char *)malloc(sizeof(char) * (utils->varcontent_len + 1));
 	if (!tmp)
-		ft_free("Alloc Error at get_envar", input, tokens, 1);
+		ft_free("Alloc Error at get_envar", tokens, 1);
 	i = utils->varcontent_start;
 	while (j != utils->varcontent_len)
 	{
@@ -97,7 +96,6 @@ int	is_indquote(char *s, t_utils *utils)
 	return (0);
 }
 
-
 int	find_envar(char *arg)
 {
 	int	i;
@@ -118,7 +116,7 @@ int	find_envar(char *arg)
 				if (arg[i + 1])
 				{
 					if (ft_isalpha(arg[i + 1]) == 1 || arg[i + 1] == '_'
-						|| arg[i + 1] == '$' || arg[i+ 1] == '?')
+						|| arg[i + 1] == '$' || arg[i + 1] == '?')
 						return (i + 1);
 				}
 			}
