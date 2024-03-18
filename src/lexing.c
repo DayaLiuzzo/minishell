@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 18:28:02 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 15:49:21 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 
 	tokens = NULL;
 	tmp = NULL;
-	while (s[i])
+	while (s && s[i])
 	{
 		while (s[i] && (is_space(s[i]) == 1))
 			i++;

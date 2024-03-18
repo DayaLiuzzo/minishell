@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 18:23:30 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:03:22 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_utils
 	int						env_index;
 }							t_utils;
 
+
 typedef struct s_input
 {
 	char					*linebuffer;
@@ -70,17 +71,9 @@ typedef struct s_lexbuf
 	char					*value;
 	char					**env;
 	int						type;
+	t_input					*input;
 }							t_lexbuf;
 
-typedef struct s_command_table
-{
-	char					**command;
-	int						**env;
-	char					heredoc;
-	t_lexbuf				*tokens;
-	t_input					**input;
-	struct s_command_table	*next;
-}							t_command_table;
 
 // PROGRAM
 int							main(int ac, char **av, char **env);
@@ -117,7 +110,6 @@ t_lexbuf					*token_recognition(char *s, t_input *input, int i,
 t_lexbuf					*get_last(t_lexbuf *lst);
 t_lexbuf					*ft_addprev(t_lexbuf *token);
 t_lexbuf					*get_last(t_lexbuf *lst);
-t_command_table				*create_command_table(t_lexbuf *tokens);
 
 // EXPAND
 int							find_envar(char *arg);

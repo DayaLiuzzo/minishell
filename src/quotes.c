@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:44:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/15 18:33:28 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/18 15:59:53 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	quotes_removal(t_lexbuf **tokens, t_input *input)
 	{
 		if (current->value && current->value[0] != '\0')
 		{
-			tmp = strdup(current->value);
+			tmp = ft_strdup(current->value);
 			free(current->value);
 			current->value = remove_quotes(tmp, tokens, input);
 		}
