@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:18:27 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 18:05:32 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_utils
 	int				varcontent_len;
 	int				varcontent_start;
 	int				env_index;
+	char			*varname1;
+	char			*varcontent1;
 }					t_utils;
 
 typedef struct s_input
@@ -79,6 +81,7 @@ int					main(int ac, char **av, char **env);
 // INIT STRUCT
 void				init_utils(t_utils *utils);
 void				init_struct(t_input *input);
+void				reset_iterators(t_utils *utils);
 
 // FREE
 void				ft_free(char *msg, t_lexbuf **tokens, int i);
@@ -93,6 +96,7 @@ void				print_tab(char **strs);
 char				*fill_tokens(char *s, int i, t_lexbuf **tokens);
 int					token_type(char *s, int *i);
 int					token_context(t_lexbuf **tokens);
+int					token_check(t_lexbuf *tmp, t_lexbuf **tokens);
 int					precise_token(t_lexbuf **tmp, t_lexbuf **tokens, int type);
 void				small_check(t_lexbuf **tokens);
 void				quote_check(t_lexbuf **tokens);
@@ -106,7 +110,7 @@ t_lexbuf			*ft_addprev(t_lexbuf *token);
 t_lexbuf			*get_last(t_lexbuf *lst);
 
 // EXPAND
-int					find_envar(char *arg);
+int					find_envar(char *arg, int i);
 void				expand(t_lexbuf **tokens, char **env);
 char				*get_varname(char *value, t_lexbuf **tokens,
 						t_utils *utils);
@@ -123,12 +127,18 @@ t_lexbuf			*create_tmp_list(char **new_strs, t_lexbuf *tmp,
 t_lexbuf			*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 						t_input *input);
 t_lexbuf			*split_expands(t_lexbuf **tokens, t_input *input);
-
+void				do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
+						t_utils *utils);
 // QUOTES
 char				*remove_quotes(char *src, t_lexbuf **tokens);
 void				count_quotesrm(char *src, int *i, int *del);
 void				quotes_removal(t_lexbuf **tokens);
 char				*ft_join_quotes(char *src, char *new_str, int len);
+void				skip_dquotes(t_utils *utils, char *src, int len,
+						char *new_str);
+void				skip_squotes(t_utils *utils, char *src, int len,
+						char *new_str);
+void				skip_check(char *value, int *i, int *inquote, char del);
 // UTILS
 int					is_space(char c);
 void				skip(char *s, int *i, char del);

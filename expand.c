@@ -6,43 +6,33 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 18:12:05 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:32:04 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
-		t_utils *utils)
-{
-	char	*envar;
-	char	*new_value;
-
-	init_utils(utils);
-	envar = get_envar(tmp->value, env, tokens, utils);
-	new_value = concatene_envar(tmp->value, envar, tokens, utils);
-	if (tmp->value)
-		free(tmp->value);
-	tmp->value = new_value;
-}
-
 void	expand(t_lexbuf **tokens, char **env)
 {
 	t_lexbuf	*tmp;
 	t_utils		utils;
+	char		*envar;
+	char		*new_value;
 
 	init_utils(&utils);
 	tmp = (*tokens);
 	negate_quotes(tokens);
 	while (tmp)
 	{
-		while (tmp->value && tmp->type != HEREDOC)
+		while (tmp->value && tmp->type != HEREDOC
+			&& (utils.start = find_envar(tmp->value, 0)) != -1)
 		{
-			utils.start = find_envar(tmp->value, 0);
-			if (utils.start != -1)
-				do_expansion(tmp, tokens, env, &utils);
-			else
-				break ;
+			init_utils(&utils);
+			envar = get_envar(tmp->value, env, tokens, &utils);
+			new_value = concatene_envar(tmp->value, envar, tokens, &utils);
+			if (tmp->value)
+				free(tmp->value);
+			tmp->value = new_value;
 		}
 		tmp = tmp->next;
 	}
@@ -50,28 +40,32 @@ void	expand(t_lexbuf **tokens, char **env)
 
 char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 {
+	int		i;
+	int		j;
 	char	*varname;
 	char	*varcontent;
 
+	i = 0;
+	j = 0;
 	varcontent = NULL;
 	varname = get_varname(value, tokens, utils);
 	if (!varname)
 		return (NULL);
-	while (env[utils->i])
+	while (env[i])
 	{
-		if (strncmp_env(varname, env[utils->i], utils->varname_len) == 1)
+		if (strncmp_env(varname, env[i], utils->varname_len) == 1)
 		{
-			while (env[utils->i][utils->j] && env[utils->i][utils->j] != '=')
-				utils->j++;
-			utils->varcontent_start = utils->j + 1;
-			varcontent = get_varcontent(env[utils->i], tokens, utils, value);
-			if (varcontent == NULL)
+			while (env[i][j] && env[i][j] != '=')
+				j++;
+			utils->varcontent_start = j + 1;
+			if ((varcontent = get_varcontent(env[i], tokens, utils,
+						value)) == NULL)
 				return (NULL);
 			if (varname)
 				free(varname);
 			return (varcontent);
 		}
-		utils->i++;
+		i++;
 	}
 	return (varcontent);
 }
@@ -79,30 +73,32 @@ char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 char	*expand_left(char *value, char *envar, t_lexbuf **tokens,
 		t_utils *utils)
 {
+	int		i;
+	int		k;
 	char	*tmp;
 
-	reset_iterators(utils);
+	k = 0;
+	utils->start += -1;
+	i = utils->start;
 	tmp = NULL;
-	while (value[utils->i] && (ft_isalnum(value[utils->i])
-			|| value[utils->i] == '_'))
-		utils->i++;
-	tmp = (char *)malloc(sizeof(char) * (utils->start + utils->varcontent_len
-				+ 1));
-	if (tmp == NULL)
+	while (value[i] && (ft_isalnum(value[i]) || value[i] == '_'))
+		i++;
+	if ((tmp = (char *)malloc(sizeof(char) * (utils->start
+					+ utils->varcontent_len + 1))) == NULL)
 		ft_free("Alloc error concatene_envar", tokens, 1);
-	utils->i = 0;
-	while (utils->i < utils->start)
+	i = 0;
+	while (i < utils->start)
 	{
-		tmp[utils->i] = value[utils->i];
-		utils->i++;
+		tmp[i] = value[i];
+		i++;
 	}
-	while (utils->i < utils->start + utils->varcontent_len && envar[utils->j])
+	while (i < utils->start + utils->varcontent_len && envar[k])
 	{
-		tmp[utils->i] = envar[utils->j];
-		utils->i++;
-		utils->j++;
+		tmp[i] = envar[k];
+		i++;
+		k++;
 	}
-	tmp[utils->i] = 0;
+	tmp[i] = 0;
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:24:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:22:23 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:41:40 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,45 +26,29 @@ t_lexbuf	*new_tokens(char *s, int *i, t_input *input)
 	return (new);
 }
 
-void	quote_check(t_lexbuf **tokens)
+int	token_check(t_lexbuf *tmp, t_lexbuf **tokens)
 {
-	t_lexbuf	*tmp;
-	int			i;
-	int			inquote;
-
-	i = 0;
-	inquote = 2;
-	tmp = *tokens;
-	tmp = get_last(tmp);
-	while (tmp && tmp->value[i])
+	if (tmp->type == INREDIR)
 	{
-		if (tmp->value[i] == '"')
-		{
-			inquote++;
-			skip(tmp->value, &i, '"');
-			if (tmp->value[i] == '"')
-			{
-				i++;
-				inquote++;
-			}
-		}
-		else if (tmp->value[i] == '\'')
-		{
-			inquote++;
-			skip(tmp->value, &i, '\'');
-			if (tmp->value[i] == '\'')
-			{
-				i++;
-				inquote++;
-			}
-		}
-		else
-			i++;
+		if (precise_token(&tmp, tokens, INREDIR) == 0)
+			return (0);
 	}
-	if (inquote % 2 == 0)
-		return ;
-	printf("tmp -> %s\ninquote ->%i\n", tmp->value, inquote);
-	ft_free("Quotes fucked up", tokens, 0);
+	else if (tmp->type == OUTREDIR)
+	{
+		if (precise_token(&tmp, tokens, OUTREDIR) == 0)
+			return (0);
+	}
+	else if (tmp->type == HEREDOC)
+	{
+		if (precise_token(&tmp, tokens, HEREDOC) == 0)
+			return (0);
+	}
+	else if (tmp->type == APPOUTREDIR)
+	{
+		if (precise_token(&tmp, tokens, APPOUTREDIR) == 0)
+			return (0);
+	}
+	return (1);
 }
 
 int	token_context(t_lexbuf **tokens)
@@ -74,26 +58,8 @@ int	token_context(t_lexbuf **tokens)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (tmp->type == INREDIR)
-		{
-			if (precise_token(&tmp, tokens, INREDIR) == 0)
-				return (0);
-		}
-		else if (tmp->type == OUTREDIR)
-		{
-			if (precise_token(&tmp, tokens, OUTREDIR) == 0)
-				return (0);
-		}
-		else if (tmp->type == HEREDOC)
-		{
-			if (precise_token(&tmp, tokens, HEREDOC) == 0)
-				return (0);
-		}
-		else if (tmp->type == APPOUTREDIR)
-		{
-			if (precise_token(&tmp, tokens, APPOUTREDIR) == 0)
-				return (0);
-		}
+		if (token_check(tmp, tokens) == 0)
+			return (0);
 		if (tmp)
 			tmp = tmp->next;
 	}

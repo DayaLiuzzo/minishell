@@ -6,7 +6,7 @@
 #    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/15 18:29:41 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/19 16:22:46 by dliuzzo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS =	$Smain.c \
 		$Sexpand_utils.c \
 		$Sfree.c \
 		$Squotes.c \
-		$Sutils_2.c 
+		$Sutils_2.c \
+		$Sskips.c
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

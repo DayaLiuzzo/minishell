@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:19:03 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 18:12:11 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,14 @@ void	init_utils(t_utils *utils)
 	utils->end = 0;
 	utils->varname_len = 0;
 	utils->varcontent_len = 0;
+	utils->varname1 = NULL;
+	utils->varcontent1 = NULL;
+}
+
+void	reset_iterators(t_utils *utils)
+{
+	utils->i = 0;
+	utils->j = 0;
+	utils->start += -1;
+	utils->i = utils->start;
 }

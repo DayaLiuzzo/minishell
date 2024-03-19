@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:44:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 16:38:37 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:08:26 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,23 @@ void	quotes_removal(t_lexbuf **tokens)
 
 char	*ft_join_quotes(char *src, char *new_str, int len)
 {
-	int	k;
-	int	j;
+	t_utils	utils;
 
-	j = 0;
-	k = 0;
-	while (j < len)
+	init_utils(&utils);
+	while (utils.j < len)
 	{
-		if (src[k] == -34)
-		{
-			k++;
-			while (j < len && src[k] != -34)
-			{
-				new_str[j] = src[k];
-				j++;
-				k++;
-			}
-			k++;
-		}
-		else if (src[k] == -39)
-		{
-			k++;
-			while (j < len && src[k] != -39)
-			{
-				new_str[j] = src[k];
-				j++;
-				k++;
-			}
-			k++;
-		}
+		if (src[utils.i] == -34)
+			skip_squotes(&utils, src, len, new_str);
+		else if (src[utils.i] == -39)
+			skip_dquotes(&utils, src, len, new_str);
 		else
 		{
-			new_str[j] = src[k];
-			j++;
-			k++;
+			new_str[utils.j] = src[utils.i];
+			utils.j++;
+			utils.i++;
 		}
 	}
-	new_str[j] = 0;
+	new_str[utils.j] = 0;
 	return (new_str);
 }
 
@@ -91,7 +71,8 @@ char	*remove_quotes(char *src, t_lexbuf **tokens)
 		new_str = ft_strdup(src);
 		return (new_str);
 	}
-	if ((new_str = (char *)malloc(sizeof(char) * (i + 1 - del))) == NULL)
+	new_str = (char *)malloc(sizeof(char) * (i + 1 - del));
+	if (new_str == NULL)
 		ft_free("Malloc Error at remove_quotes", tokens, 1);
 	new_str = ft_join_quotes(src, new_str, i - del);
 	return (new_str);
