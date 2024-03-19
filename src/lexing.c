@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:19:54 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 15:17:12 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 
 	tokens = NULL;
 	tmp = NULL;
-	while (s && s[i])
+	while ((size_t)i < ft_strlen(s))
 	{
 		while (s[i] && (is_space(s[i]) == 1))
 			i++;
@@ -48,7 +48,7 @@ void	big_check(char *s, int *size, t_lexbuf **tokens)
 	i = 0;
 	if (s)
 	{
-		while (s[i])
+		while ((size_t)i < ft_strlen(s))
 		{
 			if (s[i] == '"')
 				skip(s, &i, '"');
