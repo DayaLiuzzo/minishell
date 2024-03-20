@@ -6,12 +6,23 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 18:12:05 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/20 13:51:14 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+char 	*mark_empty_expand(t_lexbuf **tokens)
+{
+	char *str;
+	
+	str = (char *)malloc(sizeof(char) * 2);
+	if (!str)
+		ft_free("ALLOCATION ERROR AT mark_empty_expand", tokens, 1); 
+	
+	str[0] = -6;
+	str[1] = '\0';
+	return (str); 
+}
 void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 		t_utils *utils)
 {
@@ -20,9 +31,15 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 
 	init_utils(utils);
 	envar = get_envar(tmp->value, env, tokens, utils);
+	printf("envar --> %s\n", envar);
 	new_value = concatene_envar(tmp->value, envar, tokens, utils);
 	if (tmp->value)
 		free(tmp->value);
+	if(new_value && new_value[0] == '\0')
+	{
+		free(new_value);
+		new_value = mark_empty_expand(tokens);
+	}
 	tmp->value = new_value;
 }
 
@@ -54,7 +71,7 @@ char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 	char	*varcontent;
 
 	varcontent = NULL;
-	varname = get_varname(value, tokens, utils);
+	varname = get_varname(value, tokens, utils, 0);
 	if (!varname)
 		return (NULL);
 	while (env[utils->i])
@@ -118,8 +135,11 @@ char	*concatene_envar(char *tokenvalue, char *envar, t_lexbuf **tokens,
 	new_value = NULL;
 	i = find_envar(tokenvalue, 0);
 	tmp = expand_left(tokenvalue, envar, tokens, utils);
-	while (tokenvalue[i] && (ft_isalnum(tokenvalue[i]) || tokenvalue[i] == '_'))
+	if(tokenvalue[i] && tokenvalue[i] == '?')
 		i++;
+	else 
+		while (tokenvalue[i] && (ft_isalnum(tokenvalue[i]) || tokenvalue[i] == '_'))
+			i++;
 	tmp2 = &tokenvalue[i];
 	new_value = ft_strjoin(tmp, tmp2);
 	if (tmp)

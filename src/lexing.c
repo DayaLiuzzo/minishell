@@ -6,11 +6,21 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 15:17:12 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/19 19:01:05 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+void	ft_remove_empty_expands(t_lexbuf **tokens)
+{
+	t_lexbuf *current;
+	
+	current = *tokens;
+	while(current)
+	{
+		
+	}
+}
 
 t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 {

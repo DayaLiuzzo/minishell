@@ -6,23 +6,24 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 16:31:36 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/20 13:51:25 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_varname(char *value, t_lexbuf **tokens, t_utils *utils)
+char	*get_varname(char *value, t_lexbuf **tokens, t_utils *utils, int j)
 {
 	int		i;
-	int		j;
 	char	*tmp;
 
 	i = utils->start;
-	j = 0;
 	tmp = NULL;
-	while (value[i] && (ft_isalnum(value[i]) || value[i] == '_'))
+	if(value[i] && value[i] == '?')
 		i++;
+	else 
+		while (value[i] && (ft_isalnum(value[i]) || value[i] == '_'))
+			i++;
 	utils->end = i;
 	utils->varname_len = (utils->end - utils->start);
 	tmp = (char *)malloc(sizeof(char) * (utils->varname_len + 1));

@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 18:05:32 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/20 15:47:59 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ enum				e_token_type
 	HEREDOC,
 	WORD
 };
+
+struct sigaction sa;
+
 
 typedef struct s_utils
 {
@@ -113,7 +116,7 @@ t_lexbuf			*get_last(t_lexbuf *lst);
 int					find_envar(char *arg, int i);
 void				expand(t_lexbuf **tokens, char **env);
 char				*get_varname(char *value, t_lexbuf **tokens,
-						t_utils *utils);
+						t_utils *utils, int j);
 char				*get_varcontent(char *value, t_lexbuf **tokens,
 						t_utils *utils, char *s);
 char				*concatene_envar(char *value, char *envar,
@@ -147,5 +150,6 @@ int					strncmp_env(char *s1, char *s2, int n);
 void				negate_quotes(t_lexbuf **tokens);
 int					is_indquote(char *s, t_utils *utils);
 void				pos_quotes(t_lexbuf **tokens);
+char 				*mark_empty_expand(t_lexbuf **tokens);
 
 #endif
