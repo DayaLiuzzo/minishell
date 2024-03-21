@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/20 13:51:14 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:46:34 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 	envar = get_envar(tmp->value, env, tokens, utils);
 	printf("envar --> %s\n", envar);
 	new_value = concatene_envar(tmp->value, envar, tokens, utils);
+	if(envar)
+		free(envar);
 	if (tmp->value)
 		free(tmp->value);
 	if(new_value && new_value[0] == '\0')
@@ -90,6 +92,8 @@ char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 		}
 		utils->i++;
 	}
+	if (varname)
+		free(varname);
 	return (varcontent);
 }
 

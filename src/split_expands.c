@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:51:08 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:21:52 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:39:28 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_lexbuf	*split_expands(t_lexbuf **old_list_head, t_input *input)
 			new_strs = ft_split(current_old->value, -32);
 			new_node = create_tmp_list(new_strs, current_old, old_list_head,
 					input);
+			ft_free_tab(new_strs);
 		}
 		else
 			new_node = new_tokens_pexpand(current_old->value, current_old->type,
@@ -38,7 +39,7 @@ t_lexbuf	*split_expands(t_lexbuf **old_list_head, t_input *input)
 		add_back(&new_list_head, new_node);
 		current_old = old_next;
 	}
-	return (new_list_head);
+	return (ft_addprev(new_list_head));
 }
 
 t_lexbuf	*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,

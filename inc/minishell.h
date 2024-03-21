@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/20 15:47:59 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/21 13:58:15 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <termios.h>
 # include <unistd.h>
 
+
 enum				e_token_type
 {
 	INREDIR,
@@ -41,8 +42,6 @@ enum				e_token_type
 	HEREDOC,
 	WORD
 };
-
-struct sigaction sa;
 
 
 typedef struct s_utils

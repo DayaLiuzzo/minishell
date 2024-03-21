@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 17:55:20 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/18 18:20:15 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:26:06 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	print_stack(t_lexbuf *tokens)
 		if (tmp->next == NULL)
 			break ;
 		tmp = tmp->next;
+		i++;
+	}
+	i = 0;
+	printf("\nBOTTOM\n\n");
+	while (tmp)
+	{
+		printf("top node Nb %i ----> value : %s  type --->%i \n", i, tmp->value,
+			tmp->type);
+		if (tmp->prev == NULL)
+			break ;
+		tmp = tmp->prev;
 		i++;
 	}
 }
