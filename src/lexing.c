@@ -6,21 +6,11 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 15:19:43 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:36:33 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_remove_empty_expands(t_lexbuf **tokens)
-{
-	t_lexbuf	*current;
-
-	current = *tokens;
-	while (current)
-	{
-	}
-}
 
 t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 {
@@ -43,7 +33,7 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 				add_back(&tokens, tmp);
 		}
 	}
-	small_check(&tokens);
+	small_check(&tokens, 0);
 	quote_check(&tokens);
 	if (token_context(&tokens) == 0)
 		ft_free("Syntax Error", &tokens, 0);
@@ -79,10 +69,9 @@ void	big_check(char *s, int *size, t_lexbuf **tokens)
 	(*size) += i;
 }
 
-void	small_check(t_lexbuf **tokens)
+void	small_check(t_lexbuf **tokens, int i)
 {
 	t_lexbuf	*tmp;
-	int			i;
 
 	tmp = *tokens;
 	while (tmp)
@@ -105,7 +94,7 @@ void	small_check(t_lexbuf **tokens)
 		else if (tmp->type == OUTREDIR && i == 2)
 			tmp->type = APPOUTREDIR;
 		if (tmp)
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 

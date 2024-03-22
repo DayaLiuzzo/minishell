@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 15:10:14 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:07:19 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-
 enum				e_token_type
 {
 	INREDIR,
@@ -42,7 +41,6 @@ enum				e_token_type
 	HEREDOC,
 	WORD
 };
-
 
 typedef struct s_utils
 {
@@ -89,6 +87,7 @@ void				reset_iterators(t_utils *utils);
 void				ft_free(char *msg, t_lexbuf **tokens, int i);
 void				ft_free_list(t_lexbuf **tokens);
 void				ft_free_tab(char **value);
+void				ft_free_str(char *s);
 
 // TEST
 void				print_stack(t_lexbuf *tokens);
@@ -100,7 +99,7 @@ int					token_type(char *s, int *i);
 int					token_context(t_lexbuf **tokens);
 int					token_check(t_lexbuf *tmp, t_lexbuf **tokens);
 int					precise_token(t_lexbuf **tmp, t_lexbuf **tokens, int type);
-void				small_check(t_lexbuf **tokens);
+void				small_check(t_lexbuf **tokens, int i);
 void				quote_check(t_lexbuf **tokens);
 void				big_check(char *s, int *size, t_lexbuf **tokens);
 void				add_back(t_lexbuf **lst, t_lexbuf *new);
@@ -110,13 +109,13 @@ t_lexbuf			*token_recognition(char *s, t_input *input, int i,
 t_lexbuf			*get_last(t_lexbuf *lst);
 t_lexbuf			*ft_addprev(t_lexbuf *token);
 t_lexbuf			*get_last(t_lexbuf *lst);
-t_lexbuf 			*parsing(t_input *input, char **env);
+t_lexbuf			*parsing(t_input *input, char **env);
 
 // EXPAND
 int					find_envar(char *arg, int i);
 void				expand(t_lexbuf **tokens, char **env);
-char				*get_varname(char *value, t_lexbuf **tokens,
-						t_utils *utils, int j);
+char				*get_varname(char *value, t_lexbuf **tokens, t_utils *utils,
+						int j);
 char				*get_varcontent(char *value, t_lexbuf **tokens,
 						t_utils *utils, char *s);
 char				*concatene_envar(char *value, char *envar,
@@ -132,7 +131,7 @@ t_lexbuf			*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 t_lexbuf			*split_expands(t_lexbuf **tokens, t_input *input);
 void				do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 						t_utils *utils);
-t_lexbuf  *remove_emptyexpands(t_lexbuf **tokens);
+t_lexbuf			*remove_emptyexpands(t_lexbuf **tokens);
 // QUOTES
 char				*remove_quotes(char *src, t_lexbuf **tokens);
 void				count_quotesrm(char *src, int *i, int *del);
@@ -151,7 +150,7 @@ int					strncmp_env(char *s1, char *s2, int n);
 void				negate_quotes(t_lexbuf **tokens);
 int					is_indquote(char *s, t_utils *utils);
 void				pos_quotes(t_lexbuf **tokens);
-char 				*mark_empty_expand(t_lexbuf **tokens);
+char				*mark_empty_expand(t_lexbuf **tokens);
 t_lexbuf			*copy_tokens(t_lexbuf **tokens, t_lexbuf *current);
 
 #endif

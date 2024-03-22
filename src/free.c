@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/20 16:14:40 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:42:54 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,14 @@ void	ft_free_tab(char **value)
 			i++;
 		}
 		free(value);
+	}
+}
+
+void	ft_free_str(char *s)
+{
+	if (s)
+	{
+		free(s);
+		s = NULL;
 	}
 }

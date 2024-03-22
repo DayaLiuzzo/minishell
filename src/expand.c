@@ -6,23 +6,12 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 15:19:37 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:42:03 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*mark_empty_expand(t_lexbuf **tokens)
-{
-	char	*str;
-
-	str = (char *)malloc(sizeof(char) * 2);
-	if (!str)
-		ft_free("ALLOCATION ERROR AT mark_empty_expand", tokens, 1);
-	str[0] = -6;
-	str[1] = '\0';
-	return (str);
-}
 void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 		t_utils *utils)
 {
@@ -32,10 +21,8 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 	init_utils(utils);
 	envar = get_envar(tmp->value, env, tokens, utils);
 	new_value = concatene_envar(tmp->value, envar, tokens, utils);
-	if (envar)
-		free(envar);
-	if (tmp->value)
-		free(tmp->value);
+	ft_free_str(envar);
+	ft_free_str(tmp->value);
 	if (new_value && new_value[0] == '\0')
 	{
 		free(new_value);
@@ -85,8 +72,7 @@ char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 			varcontent = get_varcontent(env[utils->i], tokens, utils, value);
 			if (varcontent == NULL)
 				return (NULL);
-			if (varname)
-				free(varname);
+			ft_free_str(varname);
 			return (varcontent);
 		}
 		utils->i++;

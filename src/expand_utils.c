@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/20 13:51:25 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:42:40 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*get_varname(char *value, t_lexbuf **tokens, t_utils *utils, int j)
 
 	i = utils->start;
 	tmp = NULL;
-	if(value[i] && value[i] == '?')
+	if (value[i] && value[i] == '?')
 		i++;
-	else 
+	else
 		while (value[i] && (ft_isalnum(value[i]) || value[i] == '_'))
 			i++;
 	utils->end = i;
