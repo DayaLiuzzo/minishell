@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 16:07:19 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:04:26 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void				skip_dquotes(t_utils *utils, char *src, int len,
 void				skip_squotes(t_utils *utils, char *src, int len,
 						char *new_str);
 void				skip_check(char *value, int *i, int *inquote, char del);
+int					quote_break(t_lexbuf **tokens, char *s, int *i);
+
 // UTILS
 int					is_space(char c);
 void				skip(char *s, int *i, char del);

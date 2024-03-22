@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 16:42:03 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:37:16 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,14 @@ char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 				utils->j++;
 			utils->varcontent_start = utils->j + 1;
 			varcontent = get_varcontent(env[utils->i], tokens, utils, value);
+			ft_free_str(varname);
 			if (varcontent == NULL)
 				return (NULL);
-			ft_free_str(varname);
 			return (varcontent);
 		}
 		utils->i++;
 	}
-	if (varname)
-		free(varname);
+	ft_free_str(varname);
 	return (varcontent);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 16:54:34 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:04:06 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,8 @@ void	big_check(char *s, int *size, t_lexbuf **tokens)
 	{
 		while ((size_t)i < ft_strlen(s))
 		{
-			if (s[i] == '"')
-			{
-				if((*tokens)->type != WORD)
-					break;
-				skip(s, &i, '"');
-			}
-			if (s[i] == 39)
-			{
-				if((*tokens)->type != WORD)
-					break;
-				skip(s, &i, '\'');
-			}
+			if (quote_break(tokens, s, &i) == 1)
+				break ;
 			if (token_type(s, &i) == TAB_ || token_type(s, &i) == SPACE_)
 				break ;
 			if ((*tokens)->type == token_type(s, &i))
@@ -76,33 +66,6 @@ void	big_check(char *s, int *size, t_lexbuf **tokens)
 		ft_free("Alloc error at big_check", tokens, 1);
 	(*size) += i;
 }
-// void	big_check(char *s, int *size, t_lexbuf **tokens)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (s)
-// 	{
-// 		while ((size_t)i < ft_strlen(s))
-// 		{
-// 			if (s[i] == '"')
-// 				skip(s, &i, '"');
-// 			if (s[i] == 39)
-// 				skip(s, &i, '\'');
-// 			if (token_type(s, &i) == TAB_ || token_type(s, &i) == SPACE_)
-// 				break ;
-// 			if ((*tokens)->type == token_type(s, &i))
-// 				i++;
-// 			else
-// 				break ;
-// 		}
-// 	}
-// 	if (i != 0)
-// 		(*tokens)->value = fill_tokens(s, i, tokens);
-// 	if (!(*tokens)->value)
-// 		ft_free("Alloc error at big_check", tokens, 1);
-// 	(*size) += i;
-// }
 
 void	small_check(t_lexbuf **tokens, int i)
 {
@@ -129,7 +92,7 @@ void	small_check(t_lexbuf **tokens, int i)
 		else if (tmp->type == OUTREDIR && i == 2)
 			tmp->type = APPOUTREDIR;
 		if (tmp)
-		tmp = tmp->next;
+			tmp = tmp->next;
 	}
 }
 

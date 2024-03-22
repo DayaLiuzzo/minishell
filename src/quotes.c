@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:44:06 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:36:29 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:04:16 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,21 @@ void	count_quotesrm(char *src, int *i, int *del)
 		else
 			(*i)++;
 	}
+}
+
+int	quote_break(t_lexbuf **tokens, char *s, int *i)
+{
+	if (s[*i] == '"')
+	{
+		if ((*tokens)->type != WORD)
+			return (1);
+		skip(s, i, '"');
+	}
+	if (s[*i] == 39)
+	{
+		if ((*tokens)->type != WORD)
+			return (1);
+		skip(s, i, '\'');
+	}
+	return (0);
 }
