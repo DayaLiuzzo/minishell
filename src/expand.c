@@ -6,22 +6,22 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:46:34 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:19:37 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-char 	*mark_empty_expand(t_lexbuf **tokens)
+
+char	*mark_empty_expand(t_lexbuf **tokens)
 {
-	char *str;
-	
+	char	*str;
+
 	str = (char *)malloc(sizeof(char) * 2);
 	if (!str)
-		ft_free("ALLOCATION ERROR AT mark_empty_expand", tokens, 1); 
-	
+		ft_free("ALLOCATION ERROR AT mark_empty_expand", tokens, 1);
 	str[0] = -6;
 	str[1] = '\0';
-	return (str); 
+	return (str);
 }
 void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 		t_utils *utils)
@@ -31,13 +31,12 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 
 	init_utils(utils);
 	envar = get_envar(tmp->value, env, tokens, utils);
-	printf("envar --> %s\n", envar);
 	new_value = concatene_envar(tmp->value, envar, tokens, utils);
-	if(envar)
+	if (envar)
 		free(envar);
 	if (tmp->value)
 		free(tmp->value);
-	if(new_value && new_value[0] == '\0')
+	if (new_value && new_value[0] == '\0')
 	{
 		free(new_value);
 		new_value = mark_empty_expand(tokens);
@@ -139,10 +138,11 @@ char	*concatene_envar(char *tokenvalue, char *envar, t_lexbuf **tokens,
 	new_value = NULL;
 	i = find_envar(tokenvalue, 0);
 	tmp = expand_left(tokenvalue, envar, tokens, utils);
-	if(tokenvalue[i] && tokenvalue[i] == '?')
+	if (tokenvalue[i] && tokenvalue[i] == '?')
 		i++;
-	else 
-		while (tokenvalue[i] && (ft_isalnum(tokenvalue[i]) || tokenvalue[i] == '_'))
+	else
+		while (tokenvalue[i] && (ft_isalnum(tokenvalue[i])
+				|| tokenvalue[i] == '_'))
 			i++;
 	tmp2 = &tokenvalue[i];
 	new_value = ft_strjoin(tmp, tmp2);

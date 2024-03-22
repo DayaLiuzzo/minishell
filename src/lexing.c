@@ -6,19 +6,19 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 19:01:05 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:19:43 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	ft_remove_empty_expands(t_lexbuf **tokens)
 {
-	t_lexbuf *current;
-	
+	t_lexbuf	*current;
+
 	current = *tokens;
-	while(current)
+	while (current)
 	{
-		
 	}
 }
 
@@ -91,7 +91,8 @@ void	small_check(t_lexbuf **tokens)
 		while (tmp->value && tmp->value[i])
 			i++;
 		if ((tmp->type == PIPE && i > 1) || (tmp->next
-				&& tmp->next->type == PIPE && tmp->type == PIPE))
+				&& tmp->next->type == PIPE && tmp->type == PIPE)
+			|| (tmp->type == PIPE && tmp->next == NULL))
 			(ft_free("parse error near '|'", tokens, 0), tmp = NULL);
 		else if ((tmp->type == INREDIR && i > 2) || (tmp->next
 				&& tmp->next->type == INREDIR && tmp->type == INREDIR))

@@ -2,6 +2,7 @@
     "files.associations": {
         "readline.h": "c",
         "type_traits": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "minishell.h": "c"
     }
 }

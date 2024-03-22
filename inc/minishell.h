@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/21 13:58:15 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:10:14 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_lexbuf			*token_recognition(char *s, t_input *input, int i,
 t_lexbuf			*get_last(t_lexbuf *lst);
 t_lexbuf			*ft_addprev(t_lexbuf *token);
 t_lexbuf			*get_last(t_lexbuf *lst);
+t_lexbuf 			*parsing(t_input *input, char **env);
 
 // EXPAND
 int					find_envar(char *arg, int i);
@@ -131,6 +132,7 @@ t_lexbuf			*new_tokens_pexpand(char *s, int type, t_lexbuf **tokens,
 t_lexbuf			*split_expands(t_lexbuf **tokens, t_input *input);
 void				do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 						t_utils *utils);
+t_lexbuf  *remove_emptyexpands(t_lexbuf **tokens);
 // QUOTES
 char				*remove_quotes(char *src, t_lexbuf **tokens);
 void				count_quotesrm(char *src, int *i, int *del);
@@ -150,5 +152,6 @@ void				negate_quotes(t_lexbuf **tokens);
 int					is_indquote(char *s, t_utils *utils);
 void				pos_quotes(t_lexbuf **tokens);
 char 				*mark_empty_expand(t_lexbuf **tokens);
+t_lexbuf			*copy_tokens(t_lexbuf **tokens, t_lexbuf *current);
 
 #endif
