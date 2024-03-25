@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:09:35 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 16:43:44 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/25 19:01:48 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_lexbuf	*parsing(t_input *input, char **env)
 	t_lexbuf	*mytokens;
 	t_lexbuf	*new_tokens;
 	t_lexbuf	*last_tokens;
+	// int			arr[2]={0, ft_strlen(input->linebuffer)};
 
 	mytokens = token_recognition(input->linebuffer, input, 0, env);
 	new_tokens = split_expands(&mytokens, input);

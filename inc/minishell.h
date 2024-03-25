@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 18:04:26 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/25 19:03:02 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_input
 {
 	char			*linebuffer;
 	size_t			nread;
+	int				exit_status;
 	int				again;
 	int				len;
 }					t_input;
@@ -132,6 +133,11 @@ t_lexbuf			*split_expands(t_lexbuf **tokens, t_input *input);
 void				do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 						t_utils *utils);
 t_lexbuf			*remove_emptyexpands(t_lexbuf **tokens);
+char	*expand_left_exit(char *value, char *envar, t_lexbuf **tokens,
+		t_utils *utils);
+
+char	*concatene_envar_exit(char *tokenvalue, char *envar, t_lexbuf **tokens,
+		t_utils *utils);
 // QUOTES
 char				*remove_quotes(char *src, t_lexbuf **tokens);
 void				count_quotesrm(char *src, int *i, int *del);
