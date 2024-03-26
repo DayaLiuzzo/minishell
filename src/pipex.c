@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 19:44:45 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 11:42:14 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:55:46 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,20 @@ int	get_infile(t_lexbuf *prompt, int *tube, int fd, int ind)
 
 void	job_parent(t_lexbuf *prompt, int *tube, int *ind, int fd)
 {
-	if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) == 2
-		&& check_file(prompt) && have_pipe(prompt) == 0)
+	if (extract_in_lexbuf(prompt, WORD, 1))
 	{
-		prompt->env = exec_builtins(prompt, prompt->env);
-		if (!prompt->env)
-			return ;// tout free et exit
-		init_env_in_lex(prompt, prompt->env);
+		if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) == 2
+			&& check_file(prompt) && have_pipe(prompt) == 0)
+		{
+			prompt->env = exec_builtins(prompt, prompt->env);
+			if (!prompt->env)
+				return ;// tout free et exit
+			init_env_in_lex(prompt, prompt->env);
+		}
+		if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) == 2
+			&& check_file(prompt) == 0 && have_pipe(prompt) == 0)
+				perror("fd");
 	}
-	if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) == 2
-		&& check_file(prompt) == 0 && have_pipe(prompt) == 0)
-			perror("fd");
 	close(tube[1]);
 	if (fd != 0)
 		close(fd);
@@ -103,12 +106,15 @@ void	pipex(t_lexbuf *prompt, int fd, int ind)
 		{
 			if (check_file(prompt))
 			{
-				get_infile(prompt, tube, fd, ind);
-				job(prompt, tube, prompt->env);
+				if (extract_in_lexbuf(prompt, WORD, 1))
+				{
+					get_infile(prompt, tube, fd, ind);
+					job(prompt, tube, prompt->env);
+				}
 			}
 			else if ((have_pipe(prompt) == 1 || is_builtins(extract_in_lexbuf(prompt, WORD, 1)) != 2))
 			{
-				perror("fd");
+				perror("fd");//free
 				exit(prompt->input->exit_status);
 			}
 		}

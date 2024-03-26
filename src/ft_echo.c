@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:44:27 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 10:59:18 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:40:05 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	ft_echo(t_lexbuf *prompt)
 	char	**args;
 
 	i = 1;
+	if (!extract_in_lexbuf(prompt, WORD, 2))
+	{
+		printf ("\n");
+		prompt->input->exit_status = 0;
+		return ;
+	}
 	args = ft_join_word2(prompt);
 	if (!args)
 		exit(1); // free_tout 

@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 11:09:46 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:25:21 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int							is_only(char **arg, int ind);
 int							ft_strcmp2(char *str1, char *str2);
 
 char						**ft_cd(t_lexbuf *prompt, char **env);
-char						*get_var_pwd(char **env);
+char						*get_var_pwd(char **env, int check);
 int							ft_chdir(char *path);
 char						**ft_export_cd(char **env, char *pwd);
 char						*trunc_path(char *oldpwd);
@@ -205,7 +205,7 @@ char						**ft_unset(t_lexbuf *prompt, char **env);
 int							have_pipe(t_lexbuf *prompt);
 int							is_last_cmd(t_lexbuf *prompt);
 void						pipex(t_lexbuf *prompt, int fd, int ind);
-char						*check_cmd(char **env, char *cmd);
+char						*check_cmd(t_lexbuf *prompt, char **env, char *cmd);
 void						free_split(char **r_split);
 void						job(t_lexbuf *prompt, int *tube, char **env);
 int							is_builtins(char *word);

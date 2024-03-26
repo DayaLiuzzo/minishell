@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 11:25:52 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:52:20 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	main(int ac, char **av, char **env)
 	t_input		input;
 	t_lexbuf	*tokens;
 	char		**my_env;
+	int i = 0;
 
 	(void)av;
 	input.nread = 0;
 	if (ac != 1)
 		exit(1);
 	my_env = cpy_env(env);
-	while (1)
+	while (i < 12)
 	{
 		init_struct(&input);
 		input.linebuffer = readline("minishell >");
-		if (!input.linebuffer)
-			break ;
+		//if (!input.linebuffer)
+		//	break ;
 		add_history(input.linebuffer);
 		input.nread = ft_strlen(input.linebuffer);
 		tokens = parsing(&input, my_env);
@@ -42,5 +43,6 @@ int	main(int ac, char **av, char **env)
 		if (tokens)
 			my_env = tokens->env;
 		ft_free(NULL, &tokens, 0);
+		i++;
 	}
 }

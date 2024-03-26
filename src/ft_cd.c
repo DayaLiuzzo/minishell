@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:18:26 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 11:56:29 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:33:18 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**cd_move_with_absolut_path(t_lexbuf *prompt, char **env, char *arg)
 		}
 		check = ft_chdir(split[i]);
 		if (check == -1)
-			return (free_split(split), perror ("minishell : cd: "),change_exit_status(&prompt->input->exit_status, 1), env);
+			return (free_split(split), perror ("minishell : cd: "), change_exit_status(&prompt->input->exit_status, 1), env);
 		if (check == -2)
 			return (free_split(split), NULL);
 		i++;
@@ -124,9 +124,7 @@ char	**ft_cd(t_lexbuf *prompt, char **env)
 	}
 	arg = extract_in_lexbuf(prompt, WORD, 2);
 	oldpwd = get_oldpwd(prompt);
-	if (!oldpwd && errno == ENOENT)
-		return (env);
-	if (!oldpwd && number_of_args(prompt) != 0)
+	if (!oldpwd && errno != ENOENT)
 		return (NULL);
 	if (number_of_args(prompt) == 0)
 		return (cd_noarg(prompt, env));

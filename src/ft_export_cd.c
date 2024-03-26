@@ -6,34 +6,13 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:02:03 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/25 19:06:11 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:05:18 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_oldpwd(t_lexbuf *prompt)
-{
-	char	*oldpwd;
-
-	oldpwd = NULL;
-	if (ft_pwd(NULL, 1) != 0 && number_of_args(prompt) != 0)
-	{
-		oldpwd = malloc(ft_pwd(NULL, 1) + 1);
-		if (!oldpwd)
-			return (NULL);
-		ft_pwd(oldpwd, 3);
-	}
-	else if (number_of_args(prompt) != 0)
-	{
-		oldpwd = getcwd(oldpwd, 0);
-		if (!oldpwd)
-			return (NULL);
-	}
-	return (oldpwd);
-}
-
-char	*get_var_pwd(char **env)
+char	*get_var_pwd(char **env, int check)
 {
 	int		i;
 	char	*chaine;
@@ -50,11 +29,41 @@ char	*get_var_pwd(char **env)
 		}
 		i++;
 	}
-	if (chaine)
-		chaine = ft_strjoin2("OLDPWD=", chaine, NULL, 2);
-	else
-		chaine = ft_strdup("OLDPWD=");
+	if (check == 1)
+	{
+		if (chaine)
+			chaine = ft_strjoin2("OLDPWD=", chaine, NULL, 2);
+		else
+			chaine = ft_strdup("OLDPWD=");
+	}
 	return (chaine);
+}
+
+char	*get_oldpwd(t_lexbuf *prompt)
+{
+	char	*oldpwd;
+
+	oldpwd = NULL;
+	if (ft_pwd(NULL, 1) != 0 && number_of_args(prompt) != 0)
+	{
+		oldpwd = malloc(ft_pwd(NULL, 1) + 1);
+		if (!oldpwd)
+			return (NULL);
+		ft_pwd(oldpwd, 3);
+	}
+	else if (number_of_args(prompt) != 0)
+	{
+		printf ("get_oldpwd\n");
+		oldpwd = getcwd(oldpwd, 0);
+		if (!oldpwd && errno == ENOENT)
+		{
+			oldpwd = get_var_pwd(prompt->env, 0);
+			printf("oldpwd = %s\n", oldpwd);
+		}
+		if (!oldpwd)
+			return (NULL);
+	}
+	return (oldpwd);
 }
 
 void	check_pwd_oldpwd(char **env, char *pwd, char *oldpwd)
@@ -90,7 +99,7 @@ char	**ft_export_cd(char **env, char *pwd)
 	char	*oldpwd;
 	int		i;
 
-	oldpwd = get_var_pwd(env);
+	oldpwd = get_var_pwd(env, 1);
 	if (!oldpwd)
 		return (NULL);
 	i = 0;

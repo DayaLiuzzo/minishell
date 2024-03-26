@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:54:48 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 10:56:34 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:26:10 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*fill_arg(t_lexbuf *tmp, char **env, int *len)
 {
 	if (*len == 0)
-		return (check_cmd(env, tmp->value));
+		return (check_cmd(tmp, env, tmp->value));
 	else
 		return (tmp->value);
 }
@@ -51,10 +51,8 @@ void	free_child(t_lexbuf *prompt)
 {
 	while (prompt->prev)
 		prompt = prompt->prev;
-	ft_pwd(NULL, -2);
-	free (prompt->input->linebuffer);
 	free_env(prompt->env);
-	ft_free_list(&prompt);
+	ft_free(NULL, &prompt, 0);
 }
 
 int	get_output(t_lexbuf *prompt, int *tube)
@@ -99,7 +97,7 @@ void	job(t_lexbuf *prompt, int *tube, char **env)
 	if (!split)
 	{
 		free_child(prompt);
-		exit(127);
+		exit(prompt->input->exit_status);
 	}
 	execve(split[0], split, env);
 	free_split(split);

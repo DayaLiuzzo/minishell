@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:46:28 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/25 11:39:30 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:31:28 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,34 @@ char	*ft_join_cmd(char *path, char *cmd)
 	return (path_cmd);
 }
 
-char	*check_cmd(char **env, char *cmd)
+char	*check_cmd(t_lexbuf *prompt, char **env, char *cmd)
 {
 	char	*join;
 	char	**path;
 	int		i;
+	int		check = 0;
 
 	if (ft_strcmp(cmd, "") == 0)
 		return (write(2, "Permission denied\n", 18), NULL);
 	if (ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "../", 3) == 0)
 		return (ft_exec(cmd));
 	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
+	{
+		if (is_directory(cmd))
+		{
+			write (2, "is a directory\n ", 17);
+			prompt->input->exit_status = 126;
+			return (NULL);
+		}
+		else
+			return (ft_strdup(cmd));
+	}
+	if (access(cmd, F_OK) == 0)
+	{
+		write (2, "Permission denied\n", 19);
+		prompt->input->exit_status = 126;
+		return (NULL);
+	}
 	path = ft_get_env(env);
 	if (!path)
 		return (NULL);
@@ -96,6 +112,7 @@ char	*check_cmd(char **env, char *cmd)
 			return (free_split(path), NULL);
 		if (access(join, F_OK) == 0)
 		{
+			check = 1;
 			if (access(join, X_OK) == 0)
 				return (free_split(path), join);
 		}
@@ -103,7 +120,15 @@ char	*check_cmd(char **env, char *cmd)
 		i++;
 	}
 	free_split(path);
+	if (check == 1)
+	{
+		prompt->input->exit_status = 126;
+		write (2, cmd, ft_strlen(cmd));
+		write (2, "no such file or directory\n", 27);
+		return (NULL);
+	}
 	write (2, cmd, ft_strlen(cmd));
 	write (2, " : Command not found\n", 21);
+	prompt->input->exit_status = 127;
 	return (NULL);
 }

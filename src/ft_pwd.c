@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 11:32:32 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 11:54:40 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:33:27 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int manage_static(char *buffer, int ls, int *link)
 {
     if (ls == -2 && buffer)
-            free(buffer);
+        free(buffer);
     if (ls == -1)
         *link = 0;
     if (ls == 1 && buffer)
@@ -49,7 +49,7 @@ char    *get_current_path(char *buffer)
 
     tmp = NULL;
     tmp = getcwd(tmp, 0);
-    if (!tmp)
+    if (!tmp && errno == ENOENT)
     {
         if (buffer) 
             return (buffer);
@@ -58,7 +58,7 @@ char    *get_current_path(char *buffer)
         return (NULL); */
     if (buffer)
         free(buffer);
-    return (tmp);
+    return (ft_strdup(tmp));
 }
 
 int    ft_pwd(char *str, int ls)
@@ -80,7 +80,7 @@ int    ft_pwd(char *str, int ls)
             if (len == (int)ft_strlen(buffer))
                 return (0);
             return (1);
-        }
+         }
         else
             return (0);
     }
@@ -93,6 +93,7 @@ int    ft_pwd(char *str, int ls)
             ls++;
         }
         str[ls] = 0;
+        return (0);
     }
     if (!str && link == 0)
     {

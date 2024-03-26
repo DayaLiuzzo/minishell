@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:15:11 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/25 19:16:40 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 14:46:29 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ int	is_last_cmd(t_lexbuf *prompt)
 {
 	t_lexbuf	*tmp;
 
-	tmp = move_by_pipe(prompt);
-	if (tmp == NULL)
-		return (1);
-	else
+	tmp = prompt;
+	while (tmp && tmp->type != PIPE)
+	{
+		tmp = tmp->next;
+	}
+	if (tmp)
 		return (0);
+	return (1);
 }
 
 t_lexbuf	*move_by_pipe(t_lexbuf *tokens)
@@ -49,6 +52,8 @@ t_lexbuf	*move_by_pipe(t_lexbuf *tokens)
 	}
 	if (tmp && tmp->type == PIPE && tmp->next)
 		return (tmp->next);
+	if (tmp && !tmp->next && tmp->type == PIPE)
+		return (NULL);
 	return (tmp);
 }
 
