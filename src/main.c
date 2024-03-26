@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 14:52:20 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:53:40 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	main(int ac, char **av, char **env)
 	{
 		init_struct(&input);
 		input.linebuffer = readline("minishell >");
-		//if (!input.linebuffer)
-		//	break ;
+		if (!input.linebuffer)
+			break ;
 		add_history(input.linebuffer);
 		input.nread = ft_strlen(input.linebuffer);
 		tokens = parsing(&input, my_env);

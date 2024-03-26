@@ -6,22 +6,34 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:46:28 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:31:28 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:52:07 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_exec(char *cmd)
+char	*ft_exec(t_lexbuf *prompt, char *cmd)
 {
+	int check;
+
+	check = 0;
 	if (access(cmd, F_OK) == 0)
 	{
+		check = 1;
 		if (access(cmd, X_OK) == 0)
 			return (cmd);
+	}
+	if (check == 1)
+	{
+		prompt->input->exit_status = 126;
+		write (2, cmd, ft_strlen(cmd));
+		write (2, " : Permission denied\n", 22);
+		return (NULL);
 	}
 	write(2, "no such file or directory: ", 27);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, "\n", 1);
+	prompt->input->exit_status = 127;
 	return (NULL);
 }
 
@@ -83,7 +95,7 @@ char	*check_cmd(t_lexbuf *prompt, char **env, char *cmd)
 	if (ft_strcmp(cmd, "") == 0)
 		return (write(2, "Permission denied\n", 18), NULL);
 	if (ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "../", 3) == 0)
-		return (ft_exec(cmd));
+		return (ft_exec(prompt, cmd));
 	if (access(cmd, X_OK) == 0)
 	{
 		if (is_directory(cmd))
@@ -124,7 +136,14 @@ char	*check_cmd(t_lexbuf *prompt, char **env, char *cmd)
 	{
 		prompt->input->exit_status = 126;
 		write (2, cmd, ft_strlen(cmd));
-		write (2, "no such file or directory\n", 27);
+		write (2, " : Permission denied\n", 22);
+		return (NULL);
+	}
+	if (cmd[0] == '/')
+	{
+		prompt->input->exit_status = 126;
+		write (2, cmd, ft_strlen(cmd));
+		write (2, " : No such file or directory\n", 30);
 		return (NULL);
 	}
 	write (2, cmd, ft_strlen(cmd));

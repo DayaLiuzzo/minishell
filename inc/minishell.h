@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 15:25:21 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:39:59 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,4 +225,5 @@ int							args_is_in_env(char *var_env, char **args, int *tab_nbr);
 int							ft_strlen_tab(char **str);
 char						*get_oldpwd(t_lexbuf *prompt);
 void						change_exit_status(int *exit_status, int error);
+void						free_child(t_lexbuf *prompt);
 #endif

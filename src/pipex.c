@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 19:44:45 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 14:55:46 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:39:35 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,16 @@ void	pipex(t_lexbuf *prompt, int fd, int ind)
 					get_infile(prompt, tube, fd, ind);
 					job(prompt, tube, prompt->env);
 				}
+				else
+				{
+					free_child(prompt);
+					exit(prompt->input->exit_status);
+				}
 			}
 			else if ((have_pipe(prompt) == 1 || is_builtins(extract_in_lexbuf(prompt, WORD, 1)) != 2))
 			{
-				perror("fd");//free
+				perror("fd");
+				free_child(prompt);
 				exit(prompt->input->exit_status);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:18:26 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:33:18 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/26 15:41:38 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	**cd_noarg(t_lexbuf *prompt, char **env)
 {
 	char	*pwd;
 
-	if (chdir("/home/sbo") == -1) // voir comment avoir user ??env 
+	if (chdir("/home/sbo") == -1)
 		return (perror ("minishell : cd: "), env);
 	pwd = ft_strjoin("PWD=", "/home/sbo");
 	if (!pwd)
