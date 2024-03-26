@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+         #
+#    By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 15:41:57 by dliuzzo           #+#    #+#              #
-#    Updated: 2024/03/22 16:13:09 by dliuzzo          ###   ########.fr        #
+#    Updated: 2024/03/25 19:38:34 by sbo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,28 @@ SRCS =	$Smain.c \
 		$Squotes.c \
 		$Sutils_2.c \
 		$Sskips.c \
-		$Sutils_3.c 
+		$Sutils_3.c \
+		$Sft_echo.c \
+		$Sft_env.c \
+		$Sft_export.c \
+		$Sft_export_utils.c \
+		$Sft_pwd.c \
+		$Sft_unset.c \
+		$Sget_env.c \
+		$Spipex.c \
+		$Spipex_utils.c \
+		$Sft_cd.c \
+		$Sft_cd_utils.c \
+		$Sft_utils.c \
+		$Scheck_file.c \
+		$Sget_next_line.c \
+		$Sget_next_line_utils.c \
+		$Sbuiltins_utils.c \
+		$Sft_export_cd.c \
+		$Sft_export_parsing.c \
+		$Sft_fonc_libft.c \
+		$Sft_here_doc.c \
+		$Sft_lexbuf_utils.c 
 #		$(addprefix $S, examplefolder/)
 
 RM	=	rm -rf

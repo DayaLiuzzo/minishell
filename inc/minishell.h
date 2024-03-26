@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/25 19:03:02 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/26 11:09:46 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 enum				e_token_type
 {
@@ -161,4 +162,67 @@ void				pos_quotes(t_lexbuf **tokens);
 char				*mark_empty_expand(t_lexbuf **tokens);
 t_lexbuf			*copy_tokens(t_lexbuf **tokens, t_lexbuf *current);
 
+
+//EXEC
+//BUILTINS
+//utils
+char						*ft_strjoin2(char *s1, char *s2, char *s3, int checkfree);
+int							check_path(char *path);
+char						**cpy_env(char **env);
+int							ft_strchr2(char *s, int c);
+int							ft_strcmp(const char *s1, const char *s2);
+int							find_equal(char *word);
+int							strcmp_equal(char *env, char *arg);
+int							is_only(char **arg, int ind);
+int							ft_strcmp2(char *str1, char *str2);
+
+char						**ft_cd(t_lexbuf *prompt, char **env);
+char						*get_var_pwd(char **env);
+int							ft_chdir(char *path);
+char						**ft_export_cd(char **env, char *pwd);
+char						*trunc_path(char *oldpwd);
+
+void    					ft_echo(t_lexbuf *prompt);
+
+int							check_env(char *arg, char **env);
+void    					free_env(char **env);
+void						init_env_in_lex(t_lexbuf *prompt, char **env);
+void    					ft_env(t_lexbuf *prompt);
+
+int							check_first_char (char *chaine);
+int							nbr_inf(char **env, char *arg);
+void    					ft_export_noarg(char **env);
+int							check_char(char *chaine);
+int							*parse_export(char **arg, char **env);
+char    					**ft_export(t_lexbuf *prompt, char **env);
+					
+int							ft_pwd(char *str, int ls);
+
+int							get_len_newenv(char **varname, char **env);
+char						**ft_unset(t_lexbuf *prompt, char **env);
+
+//PIPEX
+int							have_pipe(t_lexbuf *prompt);
+int							is_last_cmd(t_lexbuf *prompt);
+void						pipex(t_lexbuf *prompt, int fd, int ind);
+char						*check_cmd(char **env, char *cmd);
+void						free_split(char **r_split);
+void						job(t_lexbuf *prompt, int *tube, char **env);
+int							is_builtins(char *word);
+char						**exec_builtins(t_lexbuf *prompt, char **env);
+int							check_file(t_lexbuf *tokens);
+t_lexbuf					*move_by_pipe(t_lexbuf *tokens);
+int							get_out(t_lexbuf *prompt);
+int							get_in(t_lexbuf *prompt);
+int							is_directory(char *file);
+char						**ft_join_word(t_lexbuf *prompt, char **env);
+char 						**ft_join_word2(t_lexbuf *prompt);
+int							number_of_args(t_lexbuf *prompt);
+char						*extract_in_lexbuf(t_lexbuf *prompt, int type, int ind);
+void						open_here_doc(t_lexbuf *prompt);
+int							get_len_cmd(t_lexbuf *prompt);
+int							args_is_in_env(char *var_env, char **args, int *tab_nbr);
+int							ft_strlen_tab(char **str);
+char						*get_oldpwd(t_lexbuf *prompt);
+void						change_exit_status(int *exit_status, int error);
 #endif
