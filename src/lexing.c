@@ -6,46 +6,17 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/25 18:53:37 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:13:51 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
-// {
-// 	t_lexbuf	*tokens;
-// 	t_lexbuf	*tmp;
-
-// 	tokens = NULL;
-// 	tmp = NULL;
-// 	while ((size_t)i < ft_strlen(s))
-// 	{
-// 		while (s[i] && (is_space(s[i]) == 1))
-// 			i++;
-// 		if (s[i] && (is_space(s[i]) == 0))
-// 		{
-// 			tmp = new_tokens(s, &i, input);
-// 			if (tmp == NULL)
-// 				ft_free("Alloc Failure in new_tokens", &tokens, 1);
-// 			big_check(&s[i], &i, &tmp);
-// 			if (tmp->value[0])
-// 				add_back(&tokens, tmp);
-// 		}
-// 	}
-// 	small_check(&tokens, 0);
-// 	quote_check(&tokens);
-// 	if (token_context(&tokens) == 0)
-// 		ft_free("Syntax Error", &tokens, 0);
-// 	expand(&tokens, env);
-// 	return (ft_addprev(tokens));
-// }
-
 t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 {
 	t_lexbuf	*tokens[2];
 	int			len;
-	
+
 	len = ft_strlen(s);
 	tokens[0] = NULL;
 	tokens[1] = NULL;
@@ -70,34 +41,6 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 	expand(&tokens[0], env);
 	return (ft_addprev(tokens[0]));
 }
-
-// t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
-// {
-// 	t_lexbuf	*tokens;
-// 	t_lexbuf	*tmp;
-
-// 	ft_bzero(&tokens, 2 * sizeof(t_lexbuf *));
-// 	while ((size_t)i < ft_strlen(s))
-// 	{
-// 		while (s[i] && (is_space(s[i]) == 1))
-// 			i++;
-// 		if (s[i] && (is_space(s[i]) == 0))
-// 		{
-// 			tmp = new_tokens(s, &i, input);
-// 			if (tmp == NULL)
-// 				ft_free("Alloc Failure in new_tokens", &tokens, 1);
-// 			big_check(&s[i], &i, &tmp);
-// 			if (tmp->value[0])
-// 				add_back(&tokens, tmp);
-// 		}
-// 	}
-// 	small_check(&tokens, 0);
-// 	quote_check(&tokens);
-// 	if (token_context(&tokens) == 0)
-// 		ft_free("Syntax Error", &tokens, 0);
-// 	expand(&tokens, env);
-// 	return (ft_addprev(tokens));
-// }
 
 void	big_check(char *s, int *size, t_lexbuf **tokens)
 {

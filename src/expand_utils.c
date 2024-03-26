@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:31 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/22 16:42:40 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:15:31 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,25 @@ int	find_envar(char *arg, int i)
 		}
 	}
 	return (-1);
+}
+
+char	*concatene_envar_exit(char *tokenvalue, char *envar, t_lexbuf **tokens,
+		t_utils *utils)
+{
+	char	*tmp;
+	char	*new_value;
+	int		i;
+	char	*tmp2;
+
+	tmp = NULL;
+	new_value = NULL;
+	i = find_envar(tokenvalue, 0);
+	tmp = expand_left_exit(tokenvalue, envar, tokens, utils);
+	if (tokenvalue[i] && tokenvalue[i] == '?')
+		i++;
+	tmp2 = &tokenvalue[i];
+	new_value = ft_strjoin(tmp, tmp2);
+	ft_free_str(tmp);
+	ft_free_str(envar);
+	return (new_value);
 }

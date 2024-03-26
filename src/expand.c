@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:58:02 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/25 19:03:41 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:14:05 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 	char	*envar;
 	char	*new_value;
 	char	*varname;
-	
+
 	init_utils(utils);
 	envar = NULL;
 	varname = get_varname(tmp->value, tokens, utils, 0);
-	if(varname && varname[0] == '?')
-		new_value = concatene_envar_exit(tmp->value, ft_itoa(tmp->input->exit_status), tokens, utils);
+	if (varname && varname[0] == '?')
+		new_value = concatene_envar_exit(tmp->value,
+				ft_itoa(tmp->input->exit_status), tokens, utils);
 	else
 	{
 		envar = get_envar(tmp->value, env, tokens, utils);
@@ -39,7 +40,6 @@ void	do_expansion(t_lexbuf *tmp, t_lexbuf **tokens, char **env,
 	}
 	tmp->value = new_value;
 }
-
 
 void	expand(t_lexbuf **tokens, char **env)
 {
@@ -62,8 +62,6 @@ void	expand(t_lexbuf **tokens, char **env)
 		tmp = tmp->next;
 	}
 }
-
-
 
 char	*get_envar(char *value, char **env, t_lexbuf **tokens, t_utils *utils)
 {
@@ -145,54 +143,4 @@ char	*concatene_envar(char *tokenvalue, char *envar, t_lexbuf **tokens,
 	new_value = ft_strjoin(tmp, tmp2);
 	ft_free_str(tmp);
 	return (new_value);
-}
-
-
-char	*concatene_envar_exit(char *tokenvalue, char *envar, t_lexbuf **tokens,
-		t_utils *utils)
-{
-	char	*tmp;
-	char	*new_value;
-	int		i;
-	char	*tmp2;
-
-	tmp = NULL;
-	new_value = NULL;
-	i = find_envar(tokenvalue, 0);
-	tmp = expand_left_exit(tokenvalue, envar, tokens, utils);
-	if (tokenvalue[i] && tokenvalue[i] == '?')
-		i++;
-	tmp2 = &tokenvalue[i];
-	new_value = ft_strjoin(tmp, tmp2);
-	ft_free_str(tmp);
-	ft_free_str(envar);
-	return (new_value);
-}
-
-
-char	*expand_left_exit(char *value, char *envar, t_lexbuf **tokens,
-		t_utils *utils)
-{
-	char	*tmp;
-	
-	reset_iterators(utils);
-	tmp = NULL;
-	tmp = (char *)malloc(sizeof(char) * (utils->start + ft_strlen(envar)
-				+ 1));
-	if (tmp == NULL)
-		ft_free("Alloc error concatene_envar", tokens, 1);
-	utils->i = 0;
-	while (utils->i < utils->start)
-	{
-		tmp[utils->i] = value[utils->i];
-		utils->i++;
-	}
-	while (utils->i < utils->start + (int)ft_strlen(envar) && envar[utils->j])
-	{
-		tmp[utils->i] = envar[utils->j];
-		utils->i++;
-		utils->j++;
-	}
-	tmp[utils->i] = 0;
-	return (tmp);
 }

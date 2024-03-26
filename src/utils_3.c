@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:09:35 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/25 19:01:48 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:15:23 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_lexbuf	*parsing(t_input *input, char **env)
 	t_lexbuf	*mytokens;
 	t_lexbuf	*new_tokens;
 	t_lexbuf	*last_tokens;
-	// int			arr[2]={0, ft_strlen(input->linebuffer)};
 
 	mytokens = token_recognition(input->linebuffer, input, 0, env);
 	new_tokens = split_expands(&mytokens, input);
@@ -76,4 +75,30 @@ char	*mark_empty_expand(t_lexbuf **tokens)
 	str[0] = -6;
 	str[1] = '\0';
 	return (str);
+}
+
+char	*expand_left_exit(char *value, char *envar, t_lexbuf **tokens,
+		t_utils *utils)
+{
+	char	*tmp;
+
+	reset_iterators(utils);
+	tmp = NULL;
+	tmp = (char *)malloc(sizeof(char) * (utils->start + ft_strlen(envar) + 1));
+	if (tmp == NULL)
+		ft_free("Alloc error concatene_envar", tokens, 1);
+	utils->i = 0;
+	while (utils->i < utils->start)
+	{
+		tmp[utils->i] = value[utils->i];
+		utils->i++;
+	}
+	while (utils->i < utils->start + (int)ft_strlen(envar) && envar[utils->j])
+	{
+		tmp[utils->i] = envar[utils->j];
+		utils->i++;
+		utils->j++;
+	}
+	tmp[utils->i] = 0;
+	return (tmp);
 }
