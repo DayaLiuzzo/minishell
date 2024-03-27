@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:26 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 11:01:11 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 12:50:15 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ char	**exec_builtins(t_lexbuf *prompt, char **env)
 		if (ft_strcmp(extract_in_lexbuf(prompt, WORD, 1), "pwd") == 0)
 		{
 			prompt->input->exit_status = 0;
-			if (ft_pwd(NULL, 0) == -1)
-				return (NULL);
+			ft_pwd();
 		}
 		if (ft_strcmp(extract_in_lexbuf(prompt, WORD, 1), "env") == 0)
 			ft_env(prompt);

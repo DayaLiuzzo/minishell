@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 15:39:59 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 14:13:29 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ int							ft_strcmp2(char *str1, char *str2);
 
 char						**ft_cd(t_lexbuf *prompt, char **env);
 char						*get_var_pwd(char **env, int check);
-int							ft_chdir(char *path);
 char						**ft_export_cd(char **env, char *pwd);
 char						*trunc_path(char *oldpwd);
 
@@ -196,8 +195,7 @@ int							check_char(char *chaine);
 int							*parse_export(char **arg, char **env);
 char    					**ft_export(t_lexbuf *prompt, char **env);
 					
-int							ft_pwd(char *str, int ls);
-
+void							ft_pwd(void);
 int							get_len_newenv(char **varname, char **env);
 char						**ft_unset(t_lexbuf *prompt, char **env);
 

@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:02:03 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 14:05:18 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 12:25:55 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,7 @@ char	*get_oldpwd(t_lexbuf *prompt)
 	char	*oldpwd;
 
 	oldpwd = NULL;
-	if (ft_pwd(NULL, 1) != 0 && number_of_args(prompt) != 0)
-	{
-		oldpwd = malloc(ft_pwd(NULL, 1) + 1);
-		if (!oldpwd)
-			return (NULL);
-		ft_pwd(oldpwd, 3);
-	}
-	else if (number_of_args(prompt) != 0)
-	{
-		printf ("get_oldpwd\n");
+
 		oldpwd = getcwd(oldpwd, 0);
 		if (!oldpwd && errno == ENOENT)
 		{
@@ -62,7 +53,6 @@ char	*get_oldpwd(t_lexbuf *prompt)
 		}
 		if (!oldpwd)
 			return (NULL);
-	}
 	return (oldpwd);
 }
 
