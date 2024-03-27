@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 19:54:48 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:26:10 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 15:08:55 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	get_output(t_lexbuf *prompt, int *tube)
 void	job(t_lexbuf *prompt, int *tube, char **env)
 {
 	char	**split;
+	int		status;
 
 	get_output(prompt, tube);
 	if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) != 0)
@@ -88,16 +89,18 @@ void	job(t_lexbuf *prompt, int *tube, char **env)
 		if (is_builtins(extract_in_lexbuf(prompt, WORD, 1)) != 2
 			|| have_pipe(prompt) == 1)
 			prompt->env = exec_builtins(prompt, env);
+		status = prompt->input->exit_status;
 		free_child(prompt);
-		if (prompt->input->exit_status != 0)
-			exit (prompt->input->exit_status);
+		if (status != 0)
+			exit (status);
 		exit (EXIT_SUCCESS);
 	}
 	split = ft_join_word(prompt, env);
 	if (!split)
 	{
+		status = prompt->input->exit_status;
 		free_child(prompt);
-		exit(prompt->input->exit_status);
+		exit(status);
 	}
 	execve(split[0], split, env);
 	free_split(split);

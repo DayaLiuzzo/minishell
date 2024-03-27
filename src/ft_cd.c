@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:18:26 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/27 12:58:32 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 14:34:39 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	**cd_noarg(t_lexbuf *prompt, char **env)
 	char	*home;
 
 	home = get_home(env);
-	printf ("%s\n", home);
 	if (!home && check_home(env) == 0)
 	{
 		write(2, "minishell: cd: HOME not set\n", 29);
@@ -63,13 +62,14 @@ char	**cd_noarg(t_lexbuf *prompt, char **env)
 	else if (!home && check_home(env) == 1)
 		return (NULL);
 	if (chdir(home) == -1)
-		return (perror ("minishell : cd: "), env);
+		return (perror ("minishell : cd: "), free(home), env);
 	pwd = ft_strjoin("PWD=", home);
 	if (!pwd)
 		return (NULL);
 	env = ft_export_cd(env, pwd);
 	if (!env)
-		return (free(pwd), NULL);
+		return (free(pwd), free(home), NULL);
+	free(home);
 	prompt->input->exit_status = 0;
 	return (env);
 }

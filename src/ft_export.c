@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 11:27:04 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 10:57:32 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 14:49:24 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**creat_new_env(char **env, char **args, int *tab_nbr)
 	i = 0;
 	new_env = malloc((tab_nbr[0] + 1) * sizeof(char *));
 	if (!new_env)
-		return (free_split(args), free(tab_nbr), NULL);
+		return (free(args), free(tab_nbr), NULL);
 	while (env[i])
 	{
 		j = args_is_in_env(env[i], args, tab_nbr);
@@ -50,7 +50,7 @@ char	**creat_new_env(char **env, char **args, int *tab_nbr)
 		else
 			new_env[i] = ft_strdup(env[i]);
 		if (!new_env[i])
-			return (free_split(args), free(tab_nbr), free_env(new_env), NULL);
+			return (free(args), free(tab_nbr), free_env(new_env), NULL);
 		i++;
 	}
 	return (new_env);

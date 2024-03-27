@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:50:48 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/19 18:12:11 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:41:23 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_struct(t_input *input)
 {
+	input->exit_status = 0;
 	input->nread = 0;
 	input->again = 1;
 	input->len = 0;
