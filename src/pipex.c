@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 19:44:45 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:39:35 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 15:58:02 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ void	get_exit_status(t_lexbuf *prompt, pid_t pid)
 void	pipex(t_lexbuf *prompt, int fd, int ind)
 {
 	pid_t	pid;
+	int		status;
 	int		tube[2];
 
+	status = 0;
 	if (prompt)
 	{
 		if (pipe(tube))
@@ -113,15 +115,17 @@ void	pipex(t_lexbuf *prompt, int fd, int ind)
 				}
 				else
 				{
+					status = prompt->input->exit_status;
 					free_child(prompt);
-					exit(prompt->input->exit_status);
+					exit(status);
 				}
 			}
 			else if ((have_pipe(prompt) == 1 || is_builtins(extract_in_lexbuf(prompt, WORD, 1)) != 2))
 			{
 				perror("fd");
+				status = prompt->input->exit_status;
 				free_child(prompt);
-				exit(prompt->input->exit_status);
+				exit(status);
 			}
 		}
 		else

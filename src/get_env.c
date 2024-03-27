@@ -6,7 +6,7 @@
 /*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 12:46:28 by sbo               #+#    #+#             */
-/*   Updated: 2024/03/26 15:52:07 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 16:49:54 by sbo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*check_cmd(t_lexbuf *prompt, char **env, char *cmd)
 	int		check = 0;
 
 	if (ft_strcmp(cmd, "") == 0)
-		return (write(2, "Permission denied\n", 18), NULL);
+		return (write(2, " '' : Command not found\n", 25), NULL);
 	if (ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "../", 3) == 0)
 		return (ft_exec(prompt, cmd));
 	if (access(cmd, X_OK) == 0)
