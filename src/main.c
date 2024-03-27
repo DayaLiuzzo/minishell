@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:49:17 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/26 17:35:56 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 18:13:41 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int ac, char **av, char **env)
 	input.nread = 0;
 	if (ac != 1)
 		exit(1);
+	input.exit_status = 0;
 	my_env = cpy_env(env);
 	while (1)
 	{
