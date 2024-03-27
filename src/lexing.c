@@ -6,7 +6,7 @@
 /*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:52 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/25 18:53:37 by dliuzzo          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:44:39 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_lexbuf	*token_recognition(char *s, t_input *input, int i, char **env)
 	small_check(&tokens[0], 0);
 	quote_check(&tokens[0]);
 	if (token_context(&tokens[0]) == 0)
-		ft_free("Syntax Error", &tokens[0], 0);
+		parse_error("Syntax Error", &tokens[0], 0, 2);
 	expand(&tokens[0], env);
 	return (ft_addprev(tokens[0]));
 }
@@ -138,15 +138,15 @@ void	small_check(t_lexbuf **tokens, int i)
 		if ((tmp->type == PIPE && i > 1) || (tmp->next
 				&& tmp->next->type == PIPE && tmp->type == PIPE)
 			|| (tmp->type == PIPE && tmp->next == NULL))
-			(ft_free("parse error near '|'", tokens, 0), tmp = NULL);
+			(parse_error("parse error near '|'", tokens, 0, 2), tmp = NULL);
 		else if ((tmp->type == INREDIR && i > 2) || (tmp->next
 				&& tmp->next->type == INREDIR && tmp->type == INREDIR))
-			(ft_free("parse error near '<'", tokens, 0), tmp = NULL);
+			(parse_error("parse error near '<'", tokens, 0, 2), tmp = NULL);
 		else if (tmp->type == INREDIR && i == 2)
 			tmp->type = HEREDOC;
 		else if ((tmp->type == OUTREDIR && i > 2) || (tmp->next
 				&& tmp->next->type == OUTREDIR && tmp->type == OUTREDIR))
-			(ft_free("parse error near '>'", tokens, 0), tmp = NULL);
+			(parse_error("parse error near '>'", tokens, 0, 2), tmp = NULL);
 		else if (tmp->type == OUTREDIR && i == 2)
 			tmp->type = APPOUTREDIR;
 		if (tmp)

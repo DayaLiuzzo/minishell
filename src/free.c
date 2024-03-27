@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:45:18 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/27 14:30:22 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 18:42:21 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ void	ft_free(char *msg, t_lexbuf **tokens, int leave)
 		if ((*tokens)->input->linebuffer)
 			free((*tokens)->input->linebuffer);
 		(*tokens)->input->linebuffer = NULL;
+	}
+	ft_free_list(tokens);
+	tokens = NULL;
+	if (leave == 1)
+		exit(1);
+}
+
+void	parse_error(char *msg, t_lexbuf **tokens, int leave, int exit_code)
+{
+	
+	if (msg != NULL)
+		printf("%s\n", msg);
+	if ((*tokens))
+	{
+		if ((*tokens)->input->linebuffer)
+			free((*tokens)->input->linebuffer);
+		(*tokens)->input->linebuffer = NULL;
+		(*tokens)->input->exit_status = exit_code;
 	}
 	ft_free_list(tokens);
 	tokens = NULL;

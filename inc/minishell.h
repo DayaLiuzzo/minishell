@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbo <sbo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dliuzzo <dliuzzo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:22:12 by dliuzzo           #+#    #+#             */
-/*   Updated: 2024/03/27 14:13:29 by sbo              ###   ########.fr       */
+/*   Updated: 2024/03/27 18:40:03 by dliuzzo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void				ft_free(char *msg, t_lexbuf **tokens, int i);
 void				ft_free_list(t_lexbuf **tokens);
 void				ft_free_tab(char **value);
 void				ft_free_str(char *s);
+void	parse_error(char *msg, t_lexbuf **tokens, int leave, int exit);
 
 // TEST
 void				print_stack(t_lexbuf *tokens);
